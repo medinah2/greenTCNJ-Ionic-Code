@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>What goes where?</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button menu ="main-menu"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Default Segment -->
+  <ion-segment color="primary" [(ngModel)]="type" (ionChange)="segmentChanged($event)" scrollable>
+    <ion-segment-button value="all" checked>
+      <ion-label>All Items</ion-label>
+      <!-- <ion-icon name="cash"></ion-icon> -->
+    </ion-segment-button>
+    <ion-segment-button value="popular">
+      <ion-label>Popular Searches</ion-label>
+      <!-- <ion-icon name="log-out"></ion-icon> -->
+    </ion-segment-button>
+  </ion-segment>
+
+  <div [ngSwitch]="type">
+    <ion-list *ngSwitchCase="'all'">
+
+      <ion-list-header>
+        <ion-title> 
+          Not sure where something goes? 
+        </ion-title>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img src = "../../assets/icon/icon.png">
+        </ion-thumbnail>
+        <ion-label>Ask Roscoe!</ion-label>
+      </ion-item>
+      
+    
+      <ion-searchbar 
+        animated
+        (ionInput)="searchMaterials($event)">
+      </ion-searchbar>
+    
+      <ion-list id="search-results">
+        <!-- <ion-list-header>Popular Searches</ion-list-header> -->
+        <ion-item *ngFor="let material of searchResults">
+          <!-- <ion-thumbnail slot="start">
+            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+          </ion-thumbnail> -->
+          <ion-button [innerHTML]="material.name" [attr.data-material-id]="material.id" (click)="openDetailsWithState($event)">
+          </ion-button>
+        </ion-item>
+      </ion-list>
+
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'popular'">
+      <!-- Here is where we display the popular materials () -->
+      <ion-list-header>
+        <ion-title> 
+          Not sure where something goes? 
+        </ion-title>
+      </ion-list-header>
+      
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <img src = "../../assets/icon/icon.png">
+        </ion-thumbnail>
+        <ion-label>Ask Roscoe!</ion-label>
+      </ion-item>
+      
+      
+    
+      <ion-searchbar 
+        animated
+        (ionInput)="searchMaterials($event)">
+      </ion-searchbar>
+
+      <p>Here we would list commonly searched for items (similar to recycle coach)</p>
+      
+    </ion-list>
+  </div>
+  
+  
+  <ion-footer class="ion-no-border">
+    <ion-toolbar>
+      <ion-item>
+      <ion-text>Looking for a material that is not on our list?</ion-text>
+      <br> 
+      <a [routerLink]="['/suggestmaterial']" class="small-text">Submit a material here!</a>
+
+      </ion-item>
+
+
+    </ion-toolbar>
+  </ion-footer>
+
+  
+  </ion-content>

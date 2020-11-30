@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/whatgoeswhere"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Suggest New Material</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+
+  <form [formGroup]="wordForm" (ngSubmit)="submitWord()">
+    <ion-item lines="full">
+      <br>
+      <br>
+      <ion-text>Suggest a material to be added to the application, an admin will review your suggestion.</ion-text>
+
+      <br>
+      <ion-label position="floating">suggested material</ion-label>
+      <ion-input formControlName="word" type="text" required></ion-input>
+    </ion-item>
+
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.word">
+        <div class="error-message" *ngIf="wordForm.get('word').hasError(validation.type) && (wordForm.get('word').dirty || wordForm.get('word').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" color="danger" expand="block">submit</ion-button>
+
+        <div class="validation-confirmation">
+          <span *ngIf="wordFailure()">Your word has been submitted!</span>        
+        </div>
+
+      </ion-col>
+    </ion-row>
+
+
+    <!-- <ion-row>
+      <ion-col>
+        <small>
+          *Please provide your word upon registration.
+        </small>         
+      </ion-col>
+    </ion-row> -->
+
+  </form>
+</ion-content>

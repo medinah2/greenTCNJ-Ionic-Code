@@ -1,0 +1,66 @@
+<!-- This page is responsible for the login page -->
+<ion-header>
+  <ion-toolbar>
+    <!-- has a back button to be able to go back to the start page in the event that they need to register rather than sign up -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/start"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Log In</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<!-- This is added to space out the image so it is in the center of the screen -->
+<ion-grid>
+  <ion-row>
+      <ion-col>
+        <!-- <ion-img [src]="assets/logo" alt="logo-image"></ion-img> -->
+        <img class="center" src="../../assets/icon/icon.png" vertical-align="middle">
+      </ion-col>
+ </ion-row>
+</ion-grid>
+
+  <!-- The required elements will not proceed unless they are filled out  -->
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+    <ion-item lines="full">
+      <ion-label position="floating">Email
+        <span *ngIf="formInputIsRequired('email')" class="required">&#42;</span>
+      </ion-label>
+      <ion-input formControlName="email" type="text" required></ion-input>
+    </ion-item>
+
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.email">
+        <div class="error-message" *ngIf="loginForm.get('email').hasError(validation.type) && (loginForm.get('email').dirty || loginForm.get('email').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- type password allows it to appear encrypted and not be visible upon entering -->
+    <ion-item lines="full">
+      <ion-label position="floating">Password</ion-label>
+      <ion-input formControlName="password" type="password" required></ion-input>
+    </ion-item>
+
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.password">
+        <div class="error-message" *ngIf="loginForm.get('password').hasError(validation.type) && (loginForm.get('password').dirty || loginForm.get('password').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-row>
+      <ion-col>
+        <div class="validation-errors">
+          <span *ngIf="loginFailure()">Email or password entered was incorrect</span>        
+        </div>
+
+        <ion-button type="submit" color="danger" expand="block">Login</ion-button>
+        <a [routerLink]="['/recover-password']" class="small-text">Forgot Password?</a>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

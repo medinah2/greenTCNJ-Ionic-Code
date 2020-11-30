@@ -1,0 +1,45 @@
+<!-- This page is loaded up upon entering the app, it will prompt users to register or sign in to the application -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Welcome to Green TCNJ</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+<!-- This is used to center the image, as of now it is a placeholder value but as a logo is finalized it will be placed here -->
+  <ion-grid>
+    <ion-row>
+        <ion-col>
+          <!-- <ion-img [src]="assets/logo" alt="logo-image"></ion-img> -->
+          <img class="center" src="../../assets/icon/icon.png" vertical-align="middle">
+        </ion-col>
+   </ion-row>
+  </ion-grid>
+
+  <!-- <ion-thumbnail>
+    <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" vertical-align="middle">
+  </ion-thumbnail> -->
+
+  <div id="container">
+    <!-- <strong>Ready to create an app?</strong>
+    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p> -->
+  </div>
+  <!-- Creates buttons for registration or login and uses [routerLink] to link the buttons to the corresponding pages -->
+  <ion-grid>
+    <ion-row>
+      <ion-col align-self-center>
+        <span class="already">Need an Account?</span>
+
+        <ion-button [routerLink]="['/registration']" expand="block" color="primary">Register</ion-button>
+
+        <span class="divider line one-line">or</span>
+
+        <span class="already">Already a user?</span>
+
+        <ion-button [routerLink]="['/login']" expand="block" color="danger">Sign In</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

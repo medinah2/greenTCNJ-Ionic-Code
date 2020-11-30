@@ -1,0 +1,139 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/start"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+    <ion-row>
+        <ion-col>
+          <!-- <ion-img [src]="assets/logo" alt="logo-image"></ion-img> -->
+          <img class="center" src="../../assets/icon/icon.png" vertical-align="middle">
+        </ion-col>
+   </ion-row>
+  </ion-grid>
+
+<!-- signupForm is the label that corresponds with the form in the ts files -->
+  <form [formGroup]="signupForm" (ngSubmit)="trySignup()">
+
+    <!-- Collects First Name and stores it into the form, this field is required -->
+    <ion-item lines="full">
+      <ion-label position="floating">First name</ion-label>
+      <ion-input  formControlName="firstName" type="text" required></ion-input>
+    </ion-item> 
+
+    <!-- Error checking: checks to see if a valid name is entered (no numbers) and that it is less than 30 characters -->
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.firstName">
+        <div class="error-message" *ngIf="signupForm.get('firstName').hasError(validation.type) && (signupForm.get('firstName').dirty || signupForm.get('firstName').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Collects Last Name and stores it into the form, this field is required -->
+    <ion-item lines="full">
+      <ion-label position="floating">Last name</ion-label>
+      <ion-input  formControlName="lastName" type="text" required></ion-input>
+    </ion-item>
+
+    <!-- Error checking: checks to see if a valid name is entered (no numbers) and that it is less than 30 characters -->
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.lastName">
+        <div class="error-message" *ngIf="signupForm.get('lastName').hasError(validation.type) && (signupForm.get('lastName').dirty || signupForm.get('lastName').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input  formControlName="email" type="text" required></ion-input>
+    </ion-item>
+
+    <!-- Error checking: checks to see if a valid email is entered (correct email format aaa@bbb.ccc) and that it is less than 30 characters -->
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.email">
+        <div class="error-message" *ngIf="signupForm.get('email').hasError(validation.type) && (signupForm.get('email').dirty || signupForm.get('email').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-item lines="full">
+      <!-- <ion-label position="floating">Password
+        <span *ngIf="formInputIsRequired('password')" class="required">Please chose an email separate from your TCNJ credentials</span>
+      </ion-label> -->
+
+      <ion-label position="floating">Password
+        <span *ngIf="formInputIsRequired('password')" class="required" class="pwDisclaimer">&#42;please use a separate password from your TCNJ credentials</span>
+      </ion-label>
+      
+      <!-- <ion-label position="floating" class="pwDisclaimer">*separate from your TCNJ credentials</ion-label> -->
+      <ion-input  formControlName="password" type="password" required></ion-input>
+    </ion-item>
+
+  <!-- Error checking: checks to see if a password is entered as it is a required field -->
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.password">
+        <div class="error-message" *ngIf="signupForm.get('password').hasError(validation.type) && (signupForm.get('password').dirty || signupForm.get('password').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Confirm Password</ion-label>
+      <ion-input  formControlName="passwordRepeat" type="password" required></ion-input>
+
+    </ion-item>
+
+
+    <div class="validation-errors">
+      <div class="error-message"
+        *ngIf="signupForm.get('passwordRepeat').hasError('passwordMismatch')">
+      Passwords Don't Match
+      </div>
+    </div>
+
+    <ion-list> 
+    
+      <ion-item>
+        <ion-label>Type of User</ion-label>
+        <ion-select formControlName="userType" placeholder="Select One" required>
+          <ion-select-option value="Student">Student</ion-select-option>
+          <ion-select-option value="Faculty">Faculty</ion-select-option>
+          <ion-select-option value="Staff">Staff</ion-select-option>
+          <ion-select-option value="Visitor">Visitor</ion-select-option>
+          <ion-select-option value="Community Member">Community Member</ion-select-option>
+          <ion-select-option value="Outreach Partner">Outreach Partner</ion-select-option>
+        </ion-select>
+      </ion-item>
+    
+    </ion-list>
+
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.userType">
+        <div class="error-message" *ngIf="signupForm.get('userType').hasError(validation.type) && (signupForm.get('userType').dirty || signupForm.get('userType').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-row>
+      <ion-col>
+
+        <div class="validation-errors">
+          <span *ngIf="registrationFailure()">Email is allready in use.</span>        
+        </div>
+
+        <ion-button type="submit" color="danger" expand="block">Sign Up</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
