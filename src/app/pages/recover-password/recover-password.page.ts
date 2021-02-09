@@ -46,7 +46,7 @@ export class RecoverPasswordPage{
       console.log("VALID");
 
       // Find a way to get email and password input from user
-      var obj = {func: "generate_reset", email: this.emailForm.value['email']};
+      var obj = {func: "generate_reset", email: this.emailForm.value['email'], isMobileRequest: true};
     
       this.http.post("http://recycle.hpc.tcnj.edu/php/password-resets-handler.php", JSON.stringify(obj)).subscribe(data => {
       

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { HttpClient} from '@angular/common/http';
 import { NavController } from '@ionic/angular'; 
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
@@ -11,26 +12,21 @@ import { CustomValidationService } from 'src/app/services/custom-validation.serv
 })
 export class ResetPasswordPage{
 
-  emailInput: string = "";
   passwordInput: string = "";
   passwordConfirmInput: string = "";
   resetForm: FormGroup;
   myControl: FormControl;
 
-  constructor(public http: HttpClient, public navCtrl: NavController, public formBuilder: FormBuilder, private customValidator: CustomValidationService) {
+  constructor(public http: HttpClient, public navCtrl: NavController, public formBuilder: FormBuilder, private customValidator: CustomValidationService, private platform: Platform) {
     this.resetForm = formBuilder.group({
-        email: ['', Validators.compose([Validators.maxLength(30), Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"), Validators.required])],
         password: ['', Validators.compose([Validators.maxLength(30), Validators.required])],
         passwordRepeat: ['', Validators.compose([Validators.maxLength(30), Validators.required])]
     }, {validator: this.customValidator.passwordMatchValidator('password', 'passwordRepeat')}  );      
+
   }
 
   // responsible for printing error messages to the screen based on validator 
   validation_messages = {
-    'email': [
-        { type: 'maxlength', message: 'Your email cannot be more than 30 characters long.' },
-        { type: 'pattern', message: 'You must enter a valid email.' }
-      ],
       'password': [
         { type: 'required', message: 'A password is required.' }
       ],
@@ -39,10 +35,18 @@ export class ResetPasswordPage{
       ]
     }
 
-  // generate_password_reset
-  checkEmail(){
+
+  validatePasswordReset(){
     console.log("try signup");
     console.log(this.resetForm.value);
+
+    // Get the unique selector (basically username) and validator (basically encrypted password) for the password reset that was concatenated 
+    // with the password reset URL in the link sent to the user's email
+    var selector = this.platform.getQueryParam('selector');
+    var validator = this.platform.getQueryParam('validator');
+
+    console.log("Selector: " + selector);
+    console.log("Validator: " + validator);
 
     if(!this.resetForm.valid){
       console.log("INVALID");
@@ -50,7 +54,8 @@ export class ResetPasswordPage{
       console.log("VALID");
 
       // Find a way to get email and password input from user
-      var obj = {func: "verify_reset", email: this.resetForm.value['email']};
+      var obj = {func: "verify_reset", password: this.resetForm.value['password'], passwordRepeat: this.resetForm.value['passwordRepeat'], 
+      selector: selector, validator: validator};
     
       this.http.post("http://recycle.hpc.tcnj.edu/php/password-resets-handler.php", JSON.stringify(obj)).subscribe(data => {
       

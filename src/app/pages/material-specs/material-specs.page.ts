@@ -44,7 +44,7 @@ export class MaterialSpecsPage {
             this.materialResult.push({name: result["material_name"], type: result["material_type"], description: result["material_description"], resources: result["resources"], image: "http://recycle.hpc.tcnj.edu/week8/materialImages/not-found.jpg" });
           }else{
             // else, there is a valid image path so you must concatinate the image name to the full image path
-            var str1 = new String( 'http://recycle.hpc.tcnj.edu/week8/materialImages/'); // db image url
+            var str1 = new String('http://recycle.hpc.tcnj.edu/materialImages/'); // db image url
             var str2 = result["image_path"]; // image name 
             var imgPath = str1.concat(str2.toString()); //combine the path with the image name 
             this.materialResult.push({name: result["material_name"], type: result["material_type"], description: result["material_description"], resources: result["resources"], image: imgPath });

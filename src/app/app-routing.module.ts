@@ -97,6 +97,10 @@ const routes: Routes = [
     path: 'suggestevent',
     loadChildren: () => import('./pages/suggestevent/suggestevent.module').then( m => m.SuggesteventPageModule)
   },
+  {
+    path: 'qr-scanner',
+    loadChildren: () => import('./pages/qr-scanner/qr-scanner.module').then( m => m.QrScannerPageModule)
+  },
 ];
 
 @NgModule({

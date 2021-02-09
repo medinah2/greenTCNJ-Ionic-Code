@@ -8,5 +8,37 @@
 </ion-header>
 
 <ion-content>
+  
 
+  <form [formGroup]="wordForm" (ngSubmit)="submitWord()">
+    <ion-item lines="full">
+      <br>
+      <br>
+      <ion-text>Having issues?  Submit your reports here.</ion-text>
+
+      <br>
+      <ion-label position="floating">report issue</ion-label>
+      <ion-textarea formControlName="word" type="text" required></ion-textarea>
+    </ion-item>
+
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.word">
+        <div class="error-message" *ngIf="wordForm.get('word').hasError(validation.type) && (wordForm.get('word').dirty || wordForm.get('word').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" color="danger" expand="block">submit</ion-button>
+
+        <div class="validation-confirmation">
+          <span *ngIf="wordFailure()">Your report has been submitted!</span>        
+        </div>
+
+      </ion-col>
+    </ion-row>
+
+  </form>
 </ion-content>
