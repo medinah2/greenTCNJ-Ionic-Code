@@ -1,19 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { HttpClient} from '@angular/common/http';
 import { Router, NavigationExtras } from '@angular/router';
 import { CustomValidationService } from 'src/app/services/custom-validation.service';
+import { IonSlides } from '@ionic/angular';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
 })
-export class RegistrationPage {
+export class RegistrationPage implements OnInit{
 
+  @ViewChild(IonSlides)slides: IonSlides;
   signupForm: FormGroup;
   myControl: FormControl;
   invalidRegistration: boolean = false;
+  tempTest: {recycling_interest: boolean, water_interest: boolean, pollution_interest: boolean, energy_interest: boolean};
+  temp: {recycling: any, water: any, pollution: any, energy: any};
+  testing: boolean[];
+
+  
+
+  ngOnInit() {
+  }
+
+    // thses are currently not being stored anywhere they are just in place to select after registration, will connect to db next semester 
+    public form = [
+      { val: 'Recycling', isChecked: false },
+      { val: 'Water Conservation', isChecked: false },
+      { val: 'Pollution Prevention', isChecked: false },
+      { val: 'Energy', isChecked: false }
+    ];
 
   constructor(private router: Router, public http: HttpClient, public formBuilder: FormBuilder, private customValidator: CustomValidationService) {
     this.signupForm = formBuilder.group({
@@ -24,7 +42,22 @@ export class RegistrationPage {
         password: ['', Validators.compose([Validators.maxLength(30), Validators.minLength(8),Validators.pattern('(?=\\D*\\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,30}'), Validators.required])],
         passwordRepeat: ['', Validators.compose([Validators.maxLength(30), Validators.required])],
         userType: ['', Validators.compose([Validators.required])]
+        // userInterests: [
+        //   { val: 'Recycling', isChecked: false },
+        //   { val: 'Water Conservation', isChecked: false },
+        //   { val: 'Pollution Prevention', isChecked: false },
+        //   { val: 'Energy', isChecked: false }
+        // ]
+
     }, {validator: this.customValidator.passwordMatchValidator('password', 'passwordRepeat')} );
+
+    // initialized to all 0s for false
+    this.temp = {
+      recycling: 0, 
+      water: 0, 
+      pollution: 0, 
+      energy: 0
+    };
   }
 
   // responsible for printing error messages to the screen based on validator 
@@ -76,20 +109,43 @@ export class RegistrationPage {
       var first = this.signupForm.value['firstName'];
       var last = this.signupForm.value['lastName']; 
       var type = this.signupForm.value['userType'];
+      // var interests = this.signupForm.value['userInterests'];
   
-      var obj = {func: "sign_up", email: email, password: pwd, passwordRepeat: pwdRepeat, firstName: first, lastName: last, userType: type};
-          
-      this.http.post("http://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).subscribe(data => {
       
+        // this.tempTest.push({recycling_interest: false, water_interest: true, pollution_interest: false, energy_interest: false}); 
+        this.temp = {
+          recycling: 0, 
+          water: 0, 
+          pollution: 0, 
+          energy: 0
+        };
+
+      // console.log(interests);
+      console.log(this.tempTest);
+
+      // this.testing.push(true);
+      // this.testing.push(false);
+      // this.testing.push(false);
+      // this.testing.push(true);
+
+      // console.log(testing);
+
+      console.log(this.testing);
+
+      var obj = {func: "add_user", email: email, password: pwd, passwordRepeat: pwdRepeat, firstName: first, lastName: last, userType: type, userInterests: this.temp};
+          console.log("hello?");
+
+      this.http.post("http://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).subscribe(data => {
+        console.log("here?");
           var result = data as any[];
   
-          if(result["signupSuccess"]){
+          if(result["addSuccess"]){
             // output to user it succeeded and move to next page
             console.log("Signup SUCCESS");
             this.invalidRegistration = false;
             this.navigateToLogin();
           }
-          else if(result["missingInputs"]){
+          else if(result["missingInput"]){
             // output error message of missing inputs
             console.log("Missing Input");
             this.invalidRegistration = true;
@@ -110,8 +166,42 @@ export class RegistrationPage {
     
   }
 
+
+  setRecycleInterest(x){
+    if(x){
+      this.temp.recycling = 1;
+    }else{
+      this.temp.recycling = 0;
+    } 
+  }
+
+  setWaterInterest(x){
+    if(x){
+      this.temp.water = 1;
+    }else{
+      this.temp.water = 0;
+    } 
+  }
+
+  setPollutionInterest(x){
+    if(x){
+      this.temp.pollution = 1;
+    }else{
+      this.temp.pollution = 0;
+    } 
+  }
+
+  setEnergyInterest(x){
+    if(x){
+      this.temp.energy = 1;
+    }else{
+      this.temp.energy = 0;
+    } 
+  }
+
+
   navigateToLogin() {
-    this.router.navigateByUrl('/selectinterests');
+    this.router.navigateByUrl('/login');
  }
 
  registrationFailure(){
@@ -127,6 +217,37 @@ formInputIsRequired(formInput: string) {
     }
   }
   return false;
+}
+
+next() {
+  this.slides.slideNext();
+}
+
+addValue(e): void {
+  	console.log(e.currentTarget.checked);	
+    console.log(e.currentTarget.name);
+    console.log(this.temp.recycling);
+
+    if(e.currentTarget.name == "ion-cb-0"){
+      console.log("Recycling");
+      this.setRecycleInterest(e.currentTarget.checked);
+    }
+
+    if(e.currentTarget.name == "ion-cb-1"){
+      console.log("Water");
+      this.setWaterInterest(e.currentTarget.checked);
+    }
+
+    if(e.currentTarget.name == "ion-cb-2"){
+      console.log("Pollution");
+      this.setPollutionInterest(e.currentTarget.checked);
+    }
+
+    if(e.currentTarget.name == "ion-cb-3"){
+      console.log("Energy");
+      this.setEnergyInterest(e.currentTarget.checked);
+    }
+    
 }
 
 }

@@ -8,21 +8,26 @@
 </ion-header>
 
 <ion-content>
+    <form [formGroup]="signupForm" (ngSubmit)="trySignup()">
+  <ion-slides pager="true">
 
+  <ion-slide>
+  <ion-list>
+<!-- 
   <ion-grid>
     <ion-row>
         <ion-col>
-          <!-- <ion-img [src]="assets/logo" alt="logo-image"></ion-img> -->
           <img class="center" src="../../assets/icon/icon.png" vertical-align="middle">
         </ion-col>
    </ion-row>
-  </ion-grid>
+  </ion-grid> -->
 
 <!-- signupForm is the label that corresponds with the form in the ts files -->
-  <form [formGroup]="signupForm" (ngSubmit)="trySignup()">
+  <!-- <form [formGroup]="signupForm" (ngSubmit)="trySignup()"> -->
 
     <!-- Collects First Name and stores it into the form, this field is required -->
     <ion-item lines="full">
+      <ion-img class="center" src="../../assets/icon/icon.png" vertical-align="middle"></ion-img>
       <ion-label position="floating">First name</ion-label>
       <ion-input  formControlName="firstName" type="text" required></ion-input>
     </ion-item> 
@@ -131,9 +136,63 @@
         <div class="validation-errors">
           <span *ngIf="registrationFailure()">Email is allready in use.</span>        
         </div>
-
-        <ion-button type="submit" color="danger" expand="block">Sign Up</ion-button>
+      <!-- <ion-button type="submit" color="danger" expand="block">Sign Up</ion-button> -->
+      <ion-button (click)="next()" fill="outline" color="danger" >Next</ion-button>
+        
       </ion-col>
     </ion-row>
-  </form>
+    <!-- </form> -->
+
+  </ion-list>
+
+  </ion-slide>
+
+  <ion-slide>
+
+    <ion-list>
+
+      <ion-list-header>
+        <ion-label>
+          Please Select the topics that interest you!
+        </ion-label>
+      </ion-list-header>
+    
+      <!-- <p>test</p>
+      <ion-item *ngFor="let entry of form">
+        <ion-label>{{entry.val}}</ion-label>
+        <ion-checkbox slot="end" [(ngModel)]="entry.isChecked"></ion-checkbox>
+      </ion-item>
+      <p>test</p> -->
+
+      <ion-item>
+        <ion-checkbox color="dark" slot="start" (ionChange)="addValue($event)"></ion-checkbox>
+        <ion-label>Recycling</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox color="dark"  slot="start" (ionChange)="addValue($event)"></ion-checkbox>
+        <ion-label>Water Conservation</ion-label>
+      </ion-item>
+
+      <ion-item>
+      <ion-checkbox color="dark"  slot="start" (ionChange)="addValue($event)"></ion-checkbox>
+        <ion-label>Pollution Prevention</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-checkbox color="dark"  slot="start" (ionChange)="addValue($event)"></ion-checkbox>
+        <ion-label>Energy</ion-label>
+      </ion-item>
+
+    <!-- <ion-button [routerLink]="['/login']" expand="block" color="danger">Submit</ion-button> -->
+
+    <ion-button type="submit" color="danger" expand="block">Sign Up</ion-button>   
+
+    </ion-list>                   
+
+  </ion-slide>
+ 
+</ion-slides>
+</form> 
+
 </ion-content>

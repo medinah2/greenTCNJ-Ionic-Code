@@ -1,0 +1,19 @@
+.subtitle {
+    position: absolute;
+    top: 8px;
+    font-size: 80%;
+    padding-right: 20%;
+    word-wrap: break-word;
+    width: 11em; 
+    // border: 1px solid #000000;
+  }
+
+  .validation-errors{
+    color: red; 
+    margin: 10px;
+    font-size: 75%;
+}
+
+//   .modal-body p {
+//     word-wrap: break-word;
+// }

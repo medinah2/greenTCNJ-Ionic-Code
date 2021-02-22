@@ -9,11 +9,14 @@ import { ReportissuePageRoutingModule } from './reportissue-routing.module';
 
 import { ReportissuePage } from './reportissue.page';
 
+import { IonicStorageModule } from '@ionic/storage';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    IonicStorageModule.forRoot(),
     ReactiveFormsModule,
     ReportissuePageRoutingModule
   ],

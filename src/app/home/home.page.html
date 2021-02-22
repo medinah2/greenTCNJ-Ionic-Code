@@ -15,10 +15,10 @@
 
     <br> 
     <!-- page title, need to fix centering as it is not being centered -->
-    <ion-title text-center>
-      Welcome to Green TCNJ {{ user.firstName}}!
-    </ion-title>
-
+    <ion-item>
+      <ion-title [innerHTML]="welcomeMsg"> </ion-title>
+    </ion-item>
+    
     <ion-list-header>Not sure where something goes? </ion-list-header>
     <ion-item>
       <ion-thumbnail slot="start">
@@ -48,7 +48,6 @@
     </ion-card-header>
   
     <ion-card-content>
-      <!-- currently a placeholder but will place events into a list here once events are set up in the calendar -->
       <!-- List of Text Items -->
       <ion-list>
         <ion-item *ngFor="let test of events">

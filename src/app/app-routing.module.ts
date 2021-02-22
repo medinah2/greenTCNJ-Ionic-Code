@@ -94,10 +94,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/suggestmaterial/suggestmaterial.module').then( m => m.SuggestmaterialPageModule)
   },
   {
-    path: 'suggestevent',
-    loadChildren: () => import('./pages/suggestevent/suggestevent.module').then( m => m.SuggesteventPageModule)
-  },
-  {
     path: 'qr-scanner',
     loadChildren: () => import('./pages/qr-scanner/qr-scanner.module').then( m => m.QrScannerPageModule)
   },

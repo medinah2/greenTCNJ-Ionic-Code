@@ -5,9 +5,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SuggestmaterialPageRoutingModule } from './suggestmaterial-routing.module';
+import { EventModalPageRoutingModule } from './event-modal-routing.module';
 
-import { SuggestmaterialPage } from './suggestmaterial.page';
+import { EventModalPage } from './event-modal.page';
 
 import { IonicStorageModule } from '@ionic/storage';
 
@@ -18,8 +18,8 @@ import { IonicStorageModule } from '@ionic/storage';
     IonicModule,
     IonicStorageModule.forRoot(),
     ReactiveFormsModule,
-    SuggestmaterialPageRoutingModule
+    EventModalPageRoutingModule
   ],
-  declarations: [SuggestmaterialPage]
+  declarations: [EventModalPage]
 })
-export class SuggestmaterialPageModule {}
+export class EventModalPageModule {}

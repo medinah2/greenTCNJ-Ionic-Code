@@ -11,6 +11,9 @@ import { EventModalPageModule } from '../event-modal/event-modal.module';
 import { SchedulePage } from './schedule.page';
 
 import { registerLocaleData } from '@angular/common';
+
+import { IonicStorageModule } from '@ionic/storage';
+
 import localeEn from '@angular/common/locales/en';
 registerLocaleData(localeEn);
 
@@ -19,6 +22,7 @@ registerLocaleData(localeEn);
     CommonModule,
     FormsModule,
     IonicModule,
+    IonicStorageModule.forRoot(),
     SchedulePageRoutingModule,
     NgCalendarModule,
     EventModalPageModule

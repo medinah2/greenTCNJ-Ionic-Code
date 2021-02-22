@@ -1,56 +1,40 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="close()">
-        <ion-icon name="close" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+      <ion-buttons slot="start">
+          <ion-button color="danger" (click)="close()">
+            <span ion-text color="primary" showWhen="ios"></span>
+            <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+          </ion-button>
+        </ion-buttons>
     <ion-title>Register</ion-title>
-    <ion-buttons slot="end">
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <br>
-  <!-- <ion-title [innerHTML]="header" > </ion-title> -->
 
   <ion-title>
-    Event Title:
-    <p class="subtitle" [innerHTML]="header"></p>
+    <h1 [innerHTML]="header"></h1>
   </ion-title>  
-<br>
-<br>
-  <ion-title>
-    Event Description:</ion-title>  
-    <ion-item>
-          <p  [innerHTML]="subHeader"></p>
-    </ion-item>
+  
+  <ion-item>
+    <p [innerHTML]="subHeader"></p>
+  </ion-item> 
+
+  <ion-item>
+    <p [innerHTML]="message"></p>
+  </ion-item>
 
   
-  <!-- <ion-text  class="subtitle" [innerHTML]="subHeader"></ion-text> -->
-<br>
-<br>
-  <ion-title>
-    Time:
-    <p class="subtitle" [innerHTML]="message"></p>
-  </ion-title>  
-  <br>
-  <br>
-  <br>
-  <br>
-
-  <!-- <ion-title [innerHTML]="message"></ion-title> -->
-    <!-- The required elements will not proceed unless they are filled out  -->
     <form [formGroup]="emailForm" (ngSubmit)="login()">
-
-      <ion-item lines="full">
+<!--
+        <ion-item lines="full">
         <ion-label position="floating">Enter Account Email 
           <span *ngIf="formInputIsRequired('email')" class="required">&#42;</span>
         </ion-label>
         <ion-input formControlName="email" type="text" required></ion-input>
       </ion-item>
-  
+      
+      
       <div class="validation-errors">
         <ng-container *ngFor="let validation of validation_messages.email">
           <div class="error-message" *ngIf="emailForm.get('email').hasError(validation.type) && (emailForm.get('email').dirty || emailForm.get('email').touched)">
@@ -58,12 +42,10 @@
           </div>
         </ng-container>
       </div>
-  
+  -->
       <ion-row>
         <ion-col>
-  
           <ion-button color="success" expand="block">Register</ion-button>
-         
         </ion-col>
       </ion-row>
     </form>

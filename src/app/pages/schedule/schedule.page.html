@@ -68,16 +68,41 @@
     (onTitleChanged)="onViewTitleChanged($event)"
     (onEventSelected)="onEventSelected($event)"
     [monthviewDisplayEventTemplate]="foo"
+    [monthviewEventDetailTemplate]="template"
   >
   </calendar>
 
   <ng-template #foo let-view="view" let-row="row" let-col="col">
-    <div [class.with-event]="view.dates[row*7+col].events.length">
-      {{view.dates[row*7+col].label}}
+    {{view.dates[row*7+col].label}}
+    <!--
+      <div [class.with-event]="view.dates[row*7+col].events.length">
+      
       <div class="indicator-container">
         <div class="event-indicator" *ngFor="let e of view.dates[row*7+col].events"></div>
         </div>
       </div>
+
+      
+      
+    -->
+    
   </ng-template>
+
+  <ng-template #template let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel">
+    <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
+      <ion-item lines="full" *ngFor="let event of selectedDate?.events" (click)="onEventSelected(event)">
+        <span *ngIf="!event.allDay" class="monthview-eventdetail-timecolumn">
+          {{event.startTime|date: 'h:mma'}}-{{event.endTime|date: 'h:mma'}} 
+
+        </span>
+        <span *ngIf="event.allDay" class="monthview-eventdetail-timecolumn">{{allDayLabel}}</span>
+        <span class="event-detail">&nbsp; |  {{(event.title.length > 20)? (event.title | slice:0:20)+'..':(event.title) }}</span>
+      </ion-item>
+      <ion-item lines="full" *ngIf="selectedDate?.events.length==0">
+        <div class="no-events-label">{{noEventsLabel}}</div>
+      </ion-item>
+    </ion-list>
+  </ng-template>
+  
 
 </ion-content>

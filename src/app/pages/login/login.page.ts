@@ -8,7 +8,7 @@ import { AuthenticationService } from './../../services/authentication.service';
 import { User } from '../../models/user';
 import {  MenuController } from '@ionic/angular';
 
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { Storage } from '@ionic/storage';
 
 import { UserService } from '../../services/user.service';
 
@@ -29,7 +29,7 @@ export class LoginPage {
   pageLoaded: boolean = false;
   user: any;
 
-  constructor(private  userService: UserService, private nativeStorage: NativeStorage, public menuCtrl: MenuController, private alertController: AlertController, private authService: AuthenticationService, private router: Router, public http: HttpClient, public navCtrl: NavController, public formBuilder: FormBuilder, private loadingController: LoadingController) {
+  constructor(private  userService: UserService, private storage: Storage, public menuCtrl: MenuController, private alertController: AlertController, private authService: AuthenticationService, private router: Router, public http: HttpClient, public navCtrl: NavController, public formBuilder: FormBuilder, private loadingController: LoadingController) {
     this.loginForm = formBuilder.group({
         // Require validators for the input fields so we can quickly tell them if their input is valid, the patten string is what characters
         // are allowed in the field and for email it makes sure there is a @ character and a domain field like .com
@@ -39,7 +39,11 @@ export class LoginPage {
     this.menuCtrl.enable(false);
     this.user = this.userService;
     // this.testlogin();
+
+    
   }
+
+  
 
   // responsible for printing error messages to the screen based on validator 
   validation_messages = {
@@ -95,34 +99,40 @@ export class LoginPage {
 
             // this.nativeStorage.setItem('myuser', {userID: result["userInfo"]["user_id"], usremail: result["userInfo"]["user_email"] })
             
-            // this.nativeStorage.setItem('myuser', {myuser: this.user })
-            // .then(
-            //   () => console.log('Stored item!'),
-            //   error => console.error('Error storing item', error)
-            // );
+            /*
+            this.nativeStorage.setItem('myuser', )
+            .then(
+              () => console.log('Stored item!'),
+               error => console.error('Error storing item', error)
+            );
+*/
+            
 
-            // this.nativeStorage.getItem('myuser')
-            // .then(
-            // data => console.log(data),
-            // error => console.error(error)
-            // );
+            // this is used to store user info within the app 
+            this.storage.set('userID', result['userInfo']['user_id']); 
+            this.storage.set('userName', result['userInfo']['user_first_name'] + result['userInfo']['user_last_name']);
+            this.storage.set('userType', result['userInfo']['user_type']);
+            this.storage.set('userEmail', result["userInfo"]["user_email"]);
 
+            console.log("hello" + result["userInfo"]["user_interests"]);
+
+            //this.storage.set('user', result["userInfo"]["user_first_name"] + result["userInfo"]["user_last_name"]);
 
             // output to user it succeeded and move to next page
             console.log("LOGIN SUCCESS");
-            console.log(result["userInfo"]["user_id"]);
-            console.log(result["userInfo"]);
+            //console.log(result["userInfo"]["user_id"]);
+            //console.log(result["userInfo"]);
             //this.user = new User(result["userInfo"]["user_id"], result["userInfo"]["user_email"], result["userInfo"]["user_type"], result["userInfo"]["user_first_name"], result["userInfo"]["user_last_name"] );
-            this.user.firstName = result["userInfo"]["user_first_name"];
-            this.user.lastName = result["userInfo"]["user_last_name"];
-            this.user.email = result["userInfo"]["user_email"];
-            this.user.type = result["userInfo"]["user_type"];
-            this.user.id = result["userInfo"]["user_id"];
+            //this.user.firstName = result["userInfo"]["user_first_name"];
+            //this.user.lastName = result["userInfo"]["user_last_name"];
+            //this.user.email = result["userInfo"]["user_email"];
+            //this.user.type = result["userInfo"]["user_type"];
+            //this.user.id = result["userInfo"]["user_id"];
 
-            console.log("testing " + this.user.fullName);
+            //console.log("testing " + this.user.fullName);
 
 
-            console.log(this.user.email);
+            //console.log(this.user.email);
 
             this.invalidLogin = false;
             this.navigateToHomePage();
@@ -243,6 +253,7 @@ navigateToHomePage() {
   // );
 
   this.pageLoaded = true;
+  this.menuCtrl.enable(true);
   this.router.navigateByUrl('/home', { replaceUrl: true });
 }
 

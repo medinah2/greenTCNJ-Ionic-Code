@@ -11,25 +11,35 @@
   <div *ngIf="news">
   
     <ion-list>
-      <ion-list-header>
+      <!-- <ion-list-header>
         <ion-label>
           News
         </ion-label>
-      </ion-list-header>
+      </ion-list-header> -->
+
       <ion-item *ngFor="let article of news">
-        <ion-thumbnail slot="start">
+        <!-- <ion-thumbnail slot="start">
           <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-        </ion-thumbnail>
+        </ion-thumbnail> -->
         <ion-label>
-          <h3>
+          <h2>
             {{ article.title }}
-          </h3>
-          <p>
+          </h2>
+          <p> By: 
             {{ article.author }}
           </p>
-          <p>
+          <!-- <p>
             {{ article.text }}
-          </p>
+          </p> -->
+
+          <ion-item  >
+            <ion-text  >
+              <p>
+                {{ article.text }}
+              </p>
+            </ion-text>
+          </ion-item>
+
         </ion-label>
       </ion-item>
     </ion-list>
