@@ -17,7 +17,7 @@
         </ion-label>
       </ion-list-header> -->
 
-      <ion-item *ngFor="let article of news">
+      <ion-item lines="full" *ngFor="let article of news" button (click)="onArticleSelected(article)">
         <!-- <ion-thumbnail slot="start">
           <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
         </ion-thumbnail> -->
@@ -28,19 +28,20 @@
           <p> By: 
             {{ article.author }}
           </p>
-          <!-- <p>
-            {{ article.text }}
-          </p> -->
+          <p>
+            {{ article.datePublished }}
+          </p>
 
-          <ion-item  >
+          <!-- <ion-item  >
             <ion-text  >
               <p>
-                {{ article.text }}
+                {{ article.datePublished }}
               </p>
             </ion-text>
-          </ion-item>
+          </ion-item> -->
 
         </ion-label>
+
       </ion-item>
     </ion-list>
   </div>

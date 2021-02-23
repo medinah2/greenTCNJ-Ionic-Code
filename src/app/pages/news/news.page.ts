@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Router, NavigationExtras } from '@angular/router';
 
+import { ModalController } from '@ionic/angular';
+import { NewsModalPage } from '../news-modal/news-modal.page';
+
 @Component({
   selector: 'app-news',
   templateUrl: './news.page.html',
@@ -14,11 +17,11 @@ export class NewsPage implements OnInit {
   ngOnInit() {
   }
 
-  news: {articleID: any, title: any, author: any, text: any}[] = [];
+  news: {articleID: any, title: any, author: any, text: any, datePublished: any}[] = [];
 
   type: string; // used to initialize tab to the view all page 
 
-  constructor(private router: Router, public http: HttpClient) {
+  constructor(private router: Router, public http: HttpClient, private modalCtrl: ModalController) {
 
       this.getAllnews();
       this.type = 'all';
@@ -34,7 +37,7 @@ export class NewsPage implements OnInit {
 
         for(var i = 0; i < result.length; i++){
           // $articleID, $title, $author, $text
-            this.news.push({articleID: result[i]["article_id"], title: result[i]["article_title"], author: result[i]["article_author"], text: result[i]["article_text"]});
+            this.news.push({articleID: result[i]["article_id"], title: result[i]["article_title"], author: result[i]["article_author"], text: result[i]["article_text"], datePublished: result[i]["publish_date"]});
         }
 
         // this.searchResults = this.news;
@@ -52,6 +55,25 @@ export class NewsPage implements OnInit {
       this.news;
       console.log(this.news);
     }, 5000);
+  }
+
+  async onArticleSelected(news) {
+
+    // let date = formatDate(event.startTime, 'MMM d, yyyy');
+    const modal = await this.modalCtrl.create({
+      component: NewsModalPage,
+      componentProps:{
+        newsObj: news,
+        newsID: news.articleID,
+        newsTitle: news.title,
+        newsAuthor: news.author,
+        newsDescription: news.text,
+        newsDatePublished: news.datePublished
+      }
+    });
+   
+    await modal.present();
+
   }
 
 }

@@ -30,7 +30,7 @@ export class SchedulePage {
   @ViewChild(CalendarComponent) myCal: CalendarComponent;
 
   constructor(private router: Router, public http: HttpClient,private alertCtrl: AlertController,
-    @Inject(LOCALE_ID) private locale: string,private modalCtrl: ModalController) {
+    @Inject(LOCALE_ID) private locale: string,private modalCtrl: ModalController, private storage: Storage) {
 
     this.loadAllEvents();
   }
@@ -54,17 +54,23 @@ export class SchedulePage {
 
   loadEvents(): any[] {
 
-    var obj = {func: "get_my_events", userID: 1};
-    
-    this.http.post("http://recycle.hpc.tcnj.edu/php/events-handler.php", JSON.stringify(obj)).subscribe(data => {
-    
-      var result = data as any[];
 
-      this.createStaticNormalDayEvents(result);
+    this.storage.get('userID').then((val) => {
+      var obj = {func: "get_my_events", userID: val};
+    
+      this.http.post("http://recycle.hpc.tcnj.edu/php/events-handler.php", JSON.stringify(obj)).subscribe(data => {
+      
+        var result = data as any[];
 
-      this.myCal.loadEvents();
-        
-    });
+        console.log(result);
+
+        this.createStaticNormalDayEvents(result);
+
+        this.myCal.loadEvents();
+          
+      });
+
+  });
     
     return this.eventSource;
 }
@@ -91,8 +97,8 @@ createStaticNormalDayEvents(events) {
       var endHour = end[0];
       var endMinute = end[1];
 
-      var startTime =  new Date(date.getFullYear(), date.getMonth(), date.getDate() + 0, startHour, startMinute, 0);
-      var endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 0, endHour, endMinute, 0);
+      var startTime =  new Date(date.getFullYear(), date.getMonth(), date.getDate(), startHour, startMinute, 0);
+      var endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), endHour, endMinute, 0);
 
       this.eventSource.push({
           title: name,

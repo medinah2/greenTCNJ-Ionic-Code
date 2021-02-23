@@ -33,7 +33,7 @@ export class HomePage {
 
     storage.get('userName').then((val) => {
       console.log('Your name is', val);
-      this.welcomeMsg = "Welcome to Green TCNJ, " + val + "!";
+      this.welcomeMsg = "Welcome to Green TCNJ "+ '</br>&#9' + val + "!";
     });
     
   }
@@ -74,7 +74,7 @@ export class HomePage {
         }
         console.log(this.events.length);
         if(this.events.length == 0){
-          this.events.push({name: "No registered events listed for you today.", description: " ", date: " " });
+          this.events.push({name: "No events listed for you today.", description: " ", date: " " });
         }
         //this.searchResults = this.materials;
     });
