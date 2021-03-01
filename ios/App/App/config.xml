@@ -10,6 +10,10 @@
     <param name="ios-package" value="SQLitePlugin"/>
   </feature>
 
+  <feature name="PushNotification">
+    <param name="ios-package" value="PushPlugin"/>
+  </feature>
+
   <feature name="Device">
     <param name="ios-package" value="CDVDevice"/>
   </feature>

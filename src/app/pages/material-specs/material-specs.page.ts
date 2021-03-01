@@ -41,7 +41,7 @@ export class MaterialSpecsPage {
 
           // if there is no image path set the image path to display not-found.jpg image
           if(result["image_path"] === null || result["image_path"] === "null"){
-            this.materialResult.push({name: result["material_name"], type: result["material_type"], description: result["material_description"], resources: result["resources"], image: "http://recycle.hpc.tcnj.edu/week8/materialImages/not-found.jpg" });
+            this.materialResult.push({name: result["material_name"], type: result["material_type"], description: result["material_description"], resources: result["resources"], image: "http://recycle.hpc.tcnj.edu/materialImages/not-found.jpg" });
           }else{
             // else, there is a valid image path so you must concatinate the image name to the full image path
             var str1 = new String('http://recycle.hpc.tcnj.edu/materialImages/'); // db image url
