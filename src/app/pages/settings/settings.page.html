@@ -29,7 +29,27 @@
     </ion-item>
 
   </ion-list>
+
+
+  <ion-list>
+    <ion-title>Manage my Interests</ion-title>
+    <ion-item *ngFor="let entry of form">
+      <ion-label>{{entry.val}}</ion-label>
+      <ion-checkbox slot="end" (ionChange)="boxChecked($event)" [(ngModel)]="entry.isChecked"></ion-checkbox>
+    </ion-item>
+  </ion-list>
   
-  <ion-button expand="full" (click)="logout()">Logout</ion-button>
+
+
+
+
 
 </ion-content>
+
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    
+    <ion-button expand="full" (click)="logout()">Logout</ion-button>
+  </ion-toolbar>
+</ion-footer>

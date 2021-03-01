@@ -110,11 +110,17 @@ export class LoginPage {
 
             // this is used to store user info within the app 
             this.storage.set('userID', result['userInfo']['user_id']); 
-            this.storage.set('userName', result['userInfo']['user_first_name'] + result['userInfo']['user_last_name']);
+            this.storage.set('userName', result['userInfo']['user_first_name'] + ' ' + result['userInfo']['user_last_name']);
             this.storage.set('userType', result['userInfo']['user_type']);
             this.storage.set('userEmail', result["userInfo"]["user_email"]);
 
-            console.log("hello" + result["userInfo"]["user_interests"]);
+            // "recycling_interest", "water_interest", "pollution_interest", "energy_interest"
+            this.storage.set('userRecyclingInterest', result["userInfo"]["recycling_interest"]);
+            this.storage.set('userWaterInterest', result["userInfo"]["water_interest"]);
+            this.storage.set('userPollutionInterest', result["userInfo"]["pollution_interest"]);
+            this.storage.set('userEnergyInterest', result["userInfo"]["energy_interest"]);
+
+            console.log("hello" + result["userInfo"]["recycling_interest"]);
 
             //this.storage.set('user', result["userInfo"]["user_first_name"] + result["userInfo"]["user_last_name"]);
 

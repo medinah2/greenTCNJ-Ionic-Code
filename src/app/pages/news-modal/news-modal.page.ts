@@ -17,13 +17,6 @@ export class NewsModalPage implements AfterViewInit {
   viewTitle: string;
   
   modalReady = false;
-  
-  // eventObj;
-  // eventID;
-  // eventName;
-  // eventTime;
-  // eventDescription;
-  // registered;
 
   newsObj;
   newsID;
@@ -37,10 +30,7 @@ export class NewsModalPage implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    
-    // if(this.registered == true){
-      
-    // }
+
     setTimeout(() => {
       this.modalReady = true;   
     }, 0);
@@ -49,7 +39,5 @@ export class NewsModalPage implements AfterViewInit {
   close() {
     this.modalCtrl.dismiss();
   }
-
-
 
 }
