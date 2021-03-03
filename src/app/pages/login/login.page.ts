@@ -85,7 +85,7 @@ export class LoginPage {
       // Find a way to get email and password input from user
       var obj = {func: "try_login", email: this.loginForm.value['email'], password: this.loginForm.value['password']};
           
-      this.http.post("http://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).subscribe(data => {
+      this.http.post("https://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).subscribe(data => {
       
           var result = data as any[];
 
