@@ -86,27 +86,11 @@ export class LoginPage {
       var obj = {func: "try_login", email: this.loginForm.value['email'], password: this.loginForm.value['password']};
           
       this.http.post("https://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).subscribe(data => {
-      
-          var result = data as any[];
+            
+        var result = data as any[];
 
           if(result["loginSuccess"]){
             this.invalidLogin = false;
-
-            // {user_id: 2, user_email: "medinah2@tcnj.edu", 
-            // user_first_name: "Heavenly", user_last_name: "Medina", 
-            // user_type: "Student"}
-
-
-            // this.nativeStorage.setItem('myuser', {userID: result["userInfo"]["user_id"], usremail: result["userInfo"]["user_email"] })
-            
-            /*
-            this.nativeStorage.setItem('myuser', )
-            .then(
-              () => console.log('Stored item!'),
-               error => console.error('Error storing item', error)
-            );
-*/
-            
 
             // this is used to store user info within the app 
             this.storage.set('userID', result['userInfo']['user_id']); 
@@ -120,46 +104,28 @@ export class LoginPage {
             this.storage.set('userPollutionInterest', result["userInfo"]["pollution_interest"]);
             this.storage.set('userEnergyInterest', result["userInfo"]["energy_interest"]);
 
-            console.log("hello" + result["userInfo"]["recycling_interest"]);
+            console.log("LOGIN SUCCESS, " + result['userInfo']);
 
-            //this.storage.set('user', result["userInfo"]["user_first_name"] + result["userInfo"]["user_last_name"]);
-
-            // output to user it succeeded and move to next page
-            console.log("LOGIN SUCCESS");
-            //console.log(result["userInfo"]["user_id"]);
-            //console.log(result["userInfo"]);
-            //this.user = new User(result["userInfo"]["user_id"], result["userInfo"]["user_email"], result["userInfo"]["user_type"], result["userInfo"]["user_first_name"], result["userInfo"]["user_last_name"] );
-            //this.user.firstName = result["userInfo"]["user_first_name"];
-            //this.user.lastName = result["userInfo"]["user_last_name"];
-            //this.user.email = result["userInfo"]["user_email"];
-            //this.user.type = result["userInfo"]["user_type"];
-            //this.user.id = result["userInfo"]["user_id"];
-
-            //console.log("testing " + this.user.fullName);
-
-
-            //console.log(this.user.email);
-
+            loading.dismiss();
             this.invalidLogin = false;
             this.navigateToHomePage();
-            
-            this.authService.login(this.loginForm.value).subscribe(
-              async (res) => {
-                await loading.dismiss();        
-                this.invalidLogin = false;
-                this.navigateToHomePage();
-              },
-              async (res) => {
-                await loading.dismiss();
-                const alert = await this.alertController.create({
-                  header: 'Login failed',
-                  message: res.error.error,
-                  buttons: ['OK'],
-                });
+            // this.authService.login(this.loginForm.value).subscribe(
+            //   async (res) => {
+            //     await loading.dismiss();        
+            //     this.invalidLogin = false;
+            //     this.navigateToHomePage();
+            //   },
+            //   async (res) => {
+            //     await loading.dismiss();
+            //     const alert = await this.alertController.create({
+            //       header: 'Login failed',
+            //       message: res.error.error,
+            //       buttons: ['OK'],
+            //     });
          
-                await alert.present();
-              }
-            );
+            //     await alert.present();
+            //   }
+            // );
 
             // if(!this.loginFailure){
             //   this.authService.login(this.loginForm.value).subscribe(
@@ -200,17 +166,17 @@ export class LoginPage {
             this.invalidLogin = true;
             console.log("huh?" + result[1] + result[1]);
 
-            this.authService.login(this.loginForm.value).subscribe(
-              async (res) => {
-                await loading.dismiss();
-                const alert = await this.alertController.create({
-                  header: 'Login failed',
-                  message: 'Email or password entered was incorrect',
-                  buttons: ['OK'],
-                });
-                await alert.present();
-              }
-            );
+            // this.authService.login(this.loginForm.value).subscribe(
+            //   async (res) => {
+            //     await loading.dismiss();
+            //     const alert = await this.alertController.create({
+            //       header: 'Login failed',
+            //       message: 'Email or password entered was incorrect',
+            //       buttons: ['OK'],
+            //     });
+            //     await alert.present();
+            //   }
+            // );
             
           }
       });

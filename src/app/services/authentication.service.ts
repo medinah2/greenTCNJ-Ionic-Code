@@ -34,7 +34,7 @@ export class AuthenticationService {
  
   public login(credentials: {email, password}): Observable<any> {
     var obj = {func: "try_login", email: credentials.email, password: credentials.password};
-    return this.http.post("http://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).pipe(
+    return this.http.post("https://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).pipe(
     // token =   data["userInfo"]["user_id"]
     map((data: any) => data.token),
 
