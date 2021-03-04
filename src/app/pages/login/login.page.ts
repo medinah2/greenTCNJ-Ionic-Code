@@ -109,6 +109,11 @@ export class LoginPage {
             loading.dismiss();
             this.invalidLogin = false;
             this.navigateToHomePage();
+            
+            this.pageLoaded = true;
+            this.menuCtrl.enable(true);
+            this.router.navigateByUrl('/home', { replaceUrl: true });
+
             console.log("Home page?");
             // this.authService.login(this.loginForm.value).subscribe(
             //   async (res) => {
@@ -213,6 +218,7 @@ export class LoginPage {
  
 
 navigateToHomePage() {
+  console.log("Why isn't this working?");
   this.pageLoaded = true;
   this.menuCtrl.enable(true);
   this.router.navigateByUrl('/home', { replaceUrl: true });
