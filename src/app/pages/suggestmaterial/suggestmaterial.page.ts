@@ -60,7 +60,7 @@ export class SuggestmaterialPage{
       // Find a way to get email and password input from user
       var obj = {func: "add_request", requestMaterial: this.wordForm.value['word'],  requestDescription: this.wordForm.value['description'], userEmail: this.usrEmail};
     
-      this.http.post("http://recycle.hpc.tcnj.edu/php/material-requests-handler.php", JSON.stringify(obj)).subscribe(data => {
+      this.http.post("https://recycle.hpc.tcnj.edu/php/material-requests-handler.php", JSON.stringify(obj)).subscribe(data => {
       
           var result = data as any[];
 

@@ -31,7 +31,7 @@ export class NewsPage implements OnInit {
           
     var obj = {func: "get_all_articles"};
 
-    this.http.post("http://recycle.hpc.tcnj.edu/php/news-handler.php", JSON.stringify(obj)).subscribe(data => {
+    this.http.post("https://recycle.hpc.tcnj.edu/php/news-handler.php", JSON.stringify(obj)).subscribe(data => {
 
         var result = data as any[];
 

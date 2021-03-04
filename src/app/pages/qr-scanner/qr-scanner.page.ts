@@ -39,7 +39,7 @@ export class QrScannerPage implements OnInit {
       
       var obj = {func: "add_participant", eventID: 1, userID: 1, attendance: 1};
     
-      this.http.post("http://recycle.hpc.tcnj.edu/php/participants-handler.php", JSON.stringify(obj)).subscribe(data => {
+      this.http.post("https://recycle.hpc.tcnj.edu/php/participants-handler.php", JSON.stringify(obj)).subscribe(data => {
           
         var result = data as any[];
       

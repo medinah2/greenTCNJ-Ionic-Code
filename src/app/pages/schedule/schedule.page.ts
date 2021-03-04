@@ -58,7 +58,7 @@ export class SchedulePage {
     this.storage.get('userID').then((val) => {
       var obj = {func: "get_my_events", userID: val};
     
-      this.http.post("http://recycle.hpc.tcnj.edu/php/events-handler.php", JSON.stringify(obj)).subscribe(data => {
+      this.http.post("https://recycle.hpc.tcnj.edu/php/events-handler.php", JSON.stringify(obj)).subscribe(data => {
       
         var result = data as any[];
 

@@ -35,16 +35,16 @@ export class MaterialSpecsPage {
       
       console.log("inside specific material page"); // debug print statement
       
-      this.http.post("http://recycle.hpc.tcnj.edu/php/materials-handler.php", JSON.stringify(obj)).subscribe(data => {
+      this.http.post("https://recycle.hpc.tcnj.edu/php/materials-handler.php", JSON.stringify(obj)).subscribe(data => {
           // stores materialResult values
           var result = data as any[];
 
           // if there is no image path set the image path to display not-found.jpg image
           if(result["image_path"] === null || result["image_path"] === "null"){
-            this.materialResult.push({name: result["material_name"], type: result["material_type"], description: result["material_description"], resources: result["resources"], image: "http://recycle.hpc.tcnj.edu/materialImages/not-found.jpg" });
+            this.materialResult.push({name: result["material_name"], type: result["material_type"], description: result["material_description"], resources: result["resources"], image: "https://recycle.hpc.tcnj.edu/materialImages/not-found.jpg" });
           }else{
             // else, there is a valid image path so you must concatinate the image name to the full image path
-            var str1 = new String('http://recycle.hpc.tcnj.edu/materialImages/'); // db image url
+            var str1 = new String('https://recycle.hpc.tcnj.edu/materialImages/'); // db image url
             var str2 = result["image_path"]; // image name 
             var imgPath = str1.concat(str2.toString()); //combine the path with the image name 
             this.materialResult.push({name: result["material_name"], type: result["material_type"], description: result["material_description"], resources: result["resources"], image: imgPath });

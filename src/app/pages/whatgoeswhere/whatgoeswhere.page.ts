@@ -30,7 +30,7 @@ export class WhatgoeswherePage {
             
             var obj = {func: "get_material_names"};
             
-            this.http.post("http://recycle.hpc.tcnj.edu/php/materials-handler.php", JSON.stringify(obj)).subscribe(data => {
+            this.http.post("https://recycle.hpc.tcnj.edu/php/materials-handler.php", JSON.stringify(obj)).subscribe(data => {
             
                 var result = data as any[];
 
@@ -56,7 +56,7 @@ export class WhatgoeswherePage {
             var obj = {func: "live_search", searchString: searchString};
             
             //Post the search string and get a response
-            this.http.post("http://recycle.hpc.tcnj.edu/php/materials-handler.php", JSON.stringify(obj)).subscribe(data => {
+            this.http.post("https://recycle.hpc.tcnj.edu/php/materials-handler.php", JSON.stringify(obj)).subscribe(data => {
             
                 var result = data as any[];
 

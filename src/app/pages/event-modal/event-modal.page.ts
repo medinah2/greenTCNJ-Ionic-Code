@@ -63,7 +63,7 @@ export class EventModalPage implements AfterViewInit {
       // // Find a way to get email and password input from user
       // var obj = {func: "try_login", email: this.emailForm.value['email'], password: this.emailForm.value['password']};
           
-      // this.http.post("http://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).subscribe(data => {
+      // this.http.post("https://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).subscribe(data => {
       
       //     var result = data as any[];
 

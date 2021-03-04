@@ -57,7 +57,7 @@ export class ResetPasswordPage{
       var obj = {func: "verify_reset", password: this.resetForm.value['password'], passwordRepeat: this.resetForm.value['passwordRepeat'], 
       selector: selector, validator: validator};
     
-      this.http.post("http://recycle.hpc.tcnj.edu/php/password-resets-handler.php", JSON.stringify(obj)).subscribe(data => {
+      this.http.post("https://recycle.hpc.tcnj.edu/php/password-resets-handler.php", JSON.stringify(obj)).subscribe(data => {
       
           var result = data as any[];
 

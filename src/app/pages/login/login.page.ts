@@ -109,6 +109,7 @@ export class LoginPage {
             loading.dismiss();
             this.invalidLogin = false;
             this.navigateToHomePage();
+            console.log("Home page?");
             // this.authService.login(this.loginForm.value).subscribe(
             //   async (res) => {
             //     await loading.dismiss();        
@@ -212,18 +213,6 @@ export class LoginPage {
  
 
 navigateToHomePage() {
-  // this.nativeStorage.setItem('myuser', {userStuff: this.user.first_name })
-  // .then(
-  //   () => console.log('Stored item!'),
-  //   error => console.error('Error storing item', error)
-  // );
-  // console.log("what");
-  // this.nativeStorage.getItem('myuser')
-  // .then(
-  // data => console.log("HELLOOOO" + data),
-  // error => console.error(error)
-  // );
-
   this.pageLoaded = true;
   this.menuCtrl.enable(true);
   this.router.navigateByUrl('/home', { replaceUrl: true });

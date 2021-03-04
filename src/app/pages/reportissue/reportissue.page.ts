@@ -63,7 +63,7 @@ export class ReportissuePage implements OnInit {
       // Find a way to get email and password input from user
       var obj = {func: "add_issue", userEmail: this.usrEmail, issueDescription: this.wordForm.value['word']};
     
-      this.http.post("http://recycle.hpc.tcnj.edu/php/issues-handler.php", JSON.stringify(obj)).subscribe(data => {
+      this.http.post("https://recycle.hpc.tcnj.edu/php/issues-handler.php", JSON.stringify(obj)).subscribe(data => {
       
           var result = data as any[];
 

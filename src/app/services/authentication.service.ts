@@ -50,7 +50,7 @@ export class AuthenticationService {
 
   // public userInfo(email){
   //   var obj = {func: "get_user", email: email};
-  //   this.http.post("http://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).subscribe(data => {
+  //   this.http.post("https://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).subscribe(data => {
   //     var result = data as any[];
 
   //   }

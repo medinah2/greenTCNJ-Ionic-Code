@@ -50,7 +50,7 @@ export class EventModalPage implements AfterViewInit {
 
       var obj = {func: "add_participant", eventID: this.eventID, userID: val, attendance: 0};
     
-      this.http.post("http://recycle.hpc.tcnj.edu/php/participants-handler.php", JSON.stringify(obj)).subscribe(data => {
+      this.http.post("https://recycle.hpc.tcnj.edu/php/participants-handler.php", JSON.stringify(obj)).subscribe(data => {
           
         var result = data as any[];
         
@@ -71,7 +71,7 @@ export class EventModalPage implements AfterViewInit {
 
       var obj = {func: "delete_participant", eventID: this.eventID, userID: val};
     
-      this.http.post("http://recycle.hpc.tcnj.edu/php/participants-handler.php", JSON.stringify(obj)).subscribe(data => {
+      this.http.post("https://recycle.hpc.tcnj.edu/php/participants-handler.php", JSON.stringify(obj)).subscribe(data => {
           
         var result = data as any[];
 
