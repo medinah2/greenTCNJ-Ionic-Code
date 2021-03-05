@@ -18,7 +18,8 @@ export class AuthGuard implements CanLoad {
       map(isAuthenticated => {
         if (isAuthenticated) {          
           return true;
-        } else {          
+        } else {      
+          console.log("Reaching here?");    
           this.router.navigateByUrl('/start')
           return false;
         }

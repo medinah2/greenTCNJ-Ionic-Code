@@ -104,52 +104,15 @@ export class LoginPage {
             this.storage.set('userPollutionInterest', result["userInfo"]["pollution_interest"]);
             this.storage.set('userEnergyInterest', result["userInfo"]["energy_interest"]);
 
-            console.log("LOGIN SUCCESS, " + result['userInfo']);
+            console.log("LOGIN SUCCESS, " + result['userInfo']['user_first_name']);
 
             loading.dismiss();
             this.invalidLogin = false;
             this.navigateToHomePage();
-            
-            this.pageLoaded = true;
-            this.menuCtrl.enable(true);
-            this.router.navigateByUrl('/home', { replaceUrl: true });
 
             console.log("Home page?");
-            // this.authService.login(this.loginForm.value).subscribe(
-            //   async (res) => {
-            //     await loading.dismiss();        
-            //     this.invalidLogin = false;
-            //     this.navigateToHomePage();
-            //   },
-            //   async (res) => {
-            //     await loading.dismiss();
-            //     const alert = await this.alertController.create({
-            //       header: 'Login failed',
-            //       message: res.error.error,
-            //       buttons: ['OK'],
-            //     });
-         
-            //     await alert.present();
-            //   }
-            // );
-
-            // if(!this.loginFailure){
-            //   this.authService.login(this.loginForm.value).subscribe(
-            //     async (res) => {
-            //       await loading.dismiss();        
-            //       this.invalidLogin = false;
-            //       // this.navigateToHomePage();
-            //       // if(this.navigateToHomePage()){
-            //       //   loading.dismiss();
-            //       //   console.log("hello?");
-            //       // }
-            //     }
-            //   ); 
-            //   // await loading.present();
-            // }
             
-          }
-          else if(result["missingInputs"]){
+          }else if(result["missingInputs"]){
             // output error message of missing inputs
             this.invalidLogin = true;
             console.log("Missing Input");
@@ -172,17 +135,17 @@ export class LoginPage {
             this.invalidLogin = true;
             console.log("huh?" + result[1] + result[1]);
 
-            // this.authService.login(this.loginForm.value).subscribe(
-            //   async (res) => {
-            //     await loading.dismiss();
-            //     const alert = await this.alertController.create({
-            //       header: 'Login failed',
-            //       message: 'Email or password entered was incorrect',
-            //       buttons: ['OK'],
-            //     });
-            //     await alert.present();
-            //   }
-            // );
+            this.authService.login(this.loginForm.value).subscribe(
+              async (res) => {
+                await loading.dismiss();
+                const alert = await this.alertController.create({
+                  header: 'Login failed',
+                  message: 'Your email or password was incorrect',
+                  buttons: ['OK'],
+                });
+                await alert.present();
+              }
+            );
             
           }
       });
@@ -221,7 +184,8 @@ navigateToHomePage() {
   console.log("Why isn't this working?");
   this.pageLoaded = true;
   this.menuCtrl.enable(true);
-  this.router.navigateByUrl('/home', { replaceUrl: true });
+  this.router.navigate(['/home'], { replaceUrl: true });
+  this.router.navigateByUrl('/home').then(success => console.log(`routing status: ${success}`));
 }
 
  formInputIsRequired(formInput: string) {
