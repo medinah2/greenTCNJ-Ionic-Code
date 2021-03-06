@@ -110,27 +110,9 @@ export class RegistrationPage implements OnInit{
       var last = this.signupForm.value['lastName']; 
       var type = this.signupForm.value['userType'];
       // var interests = this.signupForm.value['userInterests'];
-  
-      
-        // this.tempTest.push({recycling_interest: false, water_interest: true, pollution_interest: false, energy_interest: false}); 
-        this.temp = {
-          recycling: 0, 
-          water: 0, 
-          pollution: 0, 
-          energy: 0
-        };
 
-      // console.log(interests);
-      console.log(this.tempTest);
+      console.log(this.temp);
 
-      // this.testing.push(true);
-      // this.testing.push(false);
-      // this.testing.push(false);
-      // this.testing.push(true);
-
-      // console.log(testing);
-
-      console.log(this.testing);
 
       var obj = {func: "add_user", email: email, password: pwd, passwordRepeat: pwdRepeat, firstName: first, lastName: last, userType: type, userInterests: this.temp};
           console.log("hello?");
@@ -173,6 +155,7 @@ export class RegistrationPage implements OnInit{
     }else{
       this.temp.recycling = 0;
     } 
+    console.log(this.temp.recycling);
   }
 
   setWaterInterest(x){
@@ -226,7 +209,7 @@ next() {
 addValue(e): void {
   	console.log(e.currentTarget.checked);	
     console.log(e.currentTarget.name);
-    console.log(this.temp.recycling);
+    //console.log(this.temp.recycling);
 
     if(e.currentTarget.name == "ion-cb-0"){
       console.log("Recycling");
@@ -247,6 +230,7 @@ addValue(e): void {
       console.log("Energy");
       this.setEnergyInterest(e.currentTarget.checked);
     }
+
     
 }
 

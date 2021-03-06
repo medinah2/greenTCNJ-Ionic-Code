@@ -14,10 +14,12 @@ export class WhatgoeswherePage {
     materialstemp: string[] = [];
     searchResults: {name: any, id: any}[] = [];
     type: string; // used to initialize tab to the view all page 
+    popMaterials: {name: any}[] = [];
 
     constructor(private router: Router, public http: HttpClient) {
 
         this.getAllMaterials();
+        this.popularMaterials();
         this.type = 'all';
     }
 
@@ -43,6 +45,24 @@ export class WhatgoeswherePage {
         }
     }
 
+    popularMaterials(){
+        var obj = {func: "get_material_stats"};
+            
+        this.http.post("https://recycle.hpc.tcnj.edu/php/graphs-handler.php", JSON.stringify(obj)).subscribe(data => {
+        
+            var result = data as any[];
+
+            console.log(result["top_materials"]);
+
+            // want the top 6 materials to be displayed
+            for(var i = 0; i < 6; i++){
+                // console.log(result["top_materials"][i]);
+
+                this.popMaterials.push({name: result["top_materials"][i]});
+                // this.materials.push({name: result[i]["top_materials"], id: result[i]["material_id"]});
+            }
+        });
+    }
 
 
    
@@ -96,6 +116,6 @@ export class WhatgoeswherePage {
       }
    
     segmentChanged(ev: any) {
-        console.log('Segment changed', ev);
+        //console.log('Segment changed', ev);
     }
 }

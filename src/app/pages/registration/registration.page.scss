@@ -1,12 +1,12 @@
 .validation-errors{
     color: red; 
-    margin: 10px;
+    margin: 5px;
     font-size: 75%;
 }
 
 .pwDisclaimer{
     color: red; 
-    margin: 5px;
+   // margin: 5px;
     font-size: 60%;
 }
 
@@ -19,6 +19,7 @@ ion-img.center {
 
 ion-slides, ion-slide {
     height: 100%;
+    width: auto;
     --bullet-background-active: rgb(4, 252, 128);
     --bullet-background: #000;
 }

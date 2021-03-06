@@ -106,7 +106,11 @@ export class LoginPage {
             this.storage.set('userPollutionInterest', result["userInfo"]["pollution_interest"]);
             this.storage.set('userEnergyInterest', result["userInfo"]["energy_interest"]);
 
-            console.log("LOGIN SUCCESS, " + result['userInfo']['user_first_name']);
+            console.log("LOGIN SUCCESS, " + result['userInfo']["recycling_interest"]);
+            console.log("LOGIN SUCCESS, " + result['userInfo']["water_interest"]);
+            console.log("LOGIN SUCCESS, " + result['userInfo']["pollution_interest"]);
+            console.log("LOGIN SUCCESS, " + result['userInfo']["energy_interest"]);
+
 
             loading.dismiss();
             this.invalidLogin = false;
@@ -155,30 +159,6 @@ export class LoginPage {
      
   }
 
-
-  // async login(){
-  //   const loading = await this.loadingController.create();
-  //   await loading.present();
-
-  //   this.authService.login(this.loginForm.value).subscribe(
-  //     async (res) => {
-  //       await loading.dismiss();        
-  //       this.invalidLogin = false;
-  //       this.navigateToHomePage();
-  //     },
-  //     async (res) => {
-  //       await loading.dismiss();
-  //       const alert = await this.alertController.create({
-  //         header: 'Login failed',
-  //         message: res.error.error,
-  //         buttons: ['OK'],
-  //       });
- 
-  //       await alert.present();
-  //     }
-  //   );
-
-  // }
 
 tryLogin(){
   console.log("Other Login function");
