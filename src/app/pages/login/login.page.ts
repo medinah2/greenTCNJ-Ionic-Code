@@ -56,6 +56,8 @@ export class LoginPage {
       ]
     }
 
+
+
   async login(){
 
     const loading = await this.loadingController.create();
@@ -178,7 +180,9 @@ export class LoginPage {
 
   // }
 
- 
+tryLogin(){
+  console.log("Other Login function");
+} 
 
 navigateToHomePage() {
   console.log("Why isn't this working?");
