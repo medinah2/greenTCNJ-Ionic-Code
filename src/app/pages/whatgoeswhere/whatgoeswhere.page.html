@@ -67,18 +67,10 @@
         <ion-label>Ask Roscoe!</ion-label>
       </ion-item>
       
-      
-    
-      <!-- <ion-searchbar 
-        animated
-        (ionInput)="searchMaterials($event)">
-      </ion-searchbar> -->
 
       <ion-list>
-        <!-- [attr.data-material-id]="material.id" (click)="openDetailsWithState($event)" -->
-        <!-- <ion-list-header>Popular Searches</ion-list-header> -->
         <ion-item *ngFor="let material of popMaterials">
-          <ion-button [innerHTML]="material.name">
+          <ion-button [innerHTML]="material.name" [attr.data-material-id]="material.id" (click)="openDetailsWithState($event)">
           </ion-button>
         </ion-item>
       </ion-list>

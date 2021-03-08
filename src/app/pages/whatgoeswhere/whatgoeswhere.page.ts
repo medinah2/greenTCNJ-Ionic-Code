@@ -14,7 +14,7 @@ export class WhatgoeswherePage {
     materialstemp: string[] = [];
     searchResults: {name: any, id: any}[] = [];
     type: string; // used to initialize tab to the view all page 
-    popMaterials: {name: any}[] = [];
+    popMaterials: {name: any, id: any}[] = [];
 
     constructor(private router: Router, public http: HttpClient) {
 
@@ -54,12 +54,11 @@ export class WhatgoeswherePage {
 
             console.log(result["top_materials"]);
 
+            //console.log();
+
             // want the top 6 materials to be displayed
             for(var i = 0; i < 6; i++){
-                // console.log(result["top_materials"][i]);
-
-                this.popMaterials.push({name: result["top_materials"][i]});
-                // this.materials.push({name: result[i]["top_materials"], id: result[i]["material_id"]});
+                this.popMaterials.push({name: result["top_materials"][i]["material_name"], id: result["top_materials"][i]["material_id"]});
             }
         });
     }
