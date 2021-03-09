@@ -1,10 +1,13 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar mode="ios">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/whatgoeswhere"></ion-back-button>
     </ion-buttons>
-
-    <ion-title>Suggest New Material</ion-title>
+    <ion-title>
+      <div class="ion-text-wrap">
+        Suggest New Material
+      </div>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -18,7 +21,7 @@
       <ion-text>Suggest a material to be added to the application, an admin will review your suggestion.</ion-text>
 
       <br>
-      <ion-label position="floating">suggested material</ion-label>
+      <ion-label position="floating">Suggested Material</ion-label>
       <ion-input formControlName="word" type="text" required></ion-input>
     </ion-item>
 
@@ -33,13 +36,13 @@
     <ion-item lines="full">
       <br>
       <br>
-      <ion-label position="floating">material description</ion-label>
+      <ion-label position="floating">Material Description</ion-label>
       <ion-input formControlName="description" type="text"></ion-input>
     </ion-item>
 
     <ion-row>
       <ion-col>
-        <ion-button type="submit" color="success" expand="block">submit</ion-button>
+        <ion-button type="submit" color="success" expand="block">Submit</ion-button>
 
         <div class="validation-confirmation">
           <span *ngIf="wordFailure()">Your word has been submitted!</span>        

@@ -1,6 +1,10 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title >Home</ion-title>
+  <ion-toolbar mode="ios">
+    <ion-title>
+      <div class="ion-text-wrap">
+        Home
+      </div>
+    </ion-title>
     <ion-buttons slot="start">
       <!-- to display menu button that can be toggled -->
       
@@ -24,7 +28,7 @@
         <img src = "../../assets/RecyclingRoscoeSquare.png">
         <!-- <img src="../../assets/icon/TCNJ SPIRIT HEAD FULL COLOR RGB.png"> -->
       </ion-thumbnail>
-      <ion-label><h1><strong>What Goes Where?</strong></h1> Ask Roscoe!</ion-label>
+      <ion-label class="ion-text-wrap"><h1><strong>What Goes Where?</strong></h1> Ask Roscoe!</ion-label>
     </ion-item>
 
     <!-- onClick() routes you to the whatgoeswhere page to use the search bar -->

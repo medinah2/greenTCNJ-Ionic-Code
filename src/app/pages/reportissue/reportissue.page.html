@@ -1,6 +1,10 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Help/Report an Issue</ion-title>
+  <ion-toolbar mode="ios">
+    <ion-title>
+      <div class="ion-text-wrap">
+        Help/Report an Issue
+      </div>
+    </ion-title>
     <ion-buttons slot="start">
       <ion-menu-button menu ="main-menu"></ion-menu-button>
     </ion-buttons>
@@ -17,7 +21,7 @@
       <ion-text>Having issues within the application or with green initiatives on campus?  Submit your reports here.</ion-text>
 
       <br>
-      <ion-label position="floating">report issue</ion-label>
+      <ion-label position="floating">Report Issue</ion-label>
       <ion-textarea formControlName="word" type="text" required></ion-textarea>
     </ion-item>
 
@@ -31,7 +35,7 @@
 
     <ion-row>
       <ion-col>
-        <ion-button type="submit" color="success" expand="block">submit</ion-button>
+        <ion-button type="submit" color="success" expand="block">Submit</ion-button>
 
         <div class="validation-confirmation">
           <span *ngIf="wordFailure()">Your report has been submitted!</span>        

@@ -1,9 +1,11 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar mode="ios">
+    <ion-title>
+      Register
+    </ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/start"></ion-back-button>
     </ion-buttons>
-    <ion-title>Register</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -26,6 +28,7 @@
   <!-- <form [formGroup]="signupForm" (ngSubmit)="trySignup()"> -->
 
     <!-- Collects First Name and stores it into the form, this field is required -->
+    <br>
     <ion-item lines="full">
       <ion-img class="center" src="../../assets/icon/icon.png" vertical-align="middle"></ion-img>
       <ion-label position="floating">First name</ion-label>

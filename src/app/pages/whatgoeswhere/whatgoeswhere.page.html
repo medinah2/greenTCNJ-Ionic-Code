@@ -1,9 +1,13 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>What goes where?</ion-title>
+  <ion-toolbar mode="ios">
     <ion-buttons slot="start">
       <ion-menu-button menu ="main-menu"></ion-menu-button>
     </ion-buttons>
+      <ion-title>
+        <div class="ion-text-wrap">
+          What Goes Where?
+        </div>
+      </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -34,7 +38,7 @@
           <img src = "../../assets/RecyclingRoscoeSquare.png">
           <!-- <img src="../../assets/icon/TCNJ SPIRIT HEAD FULL COLOR RGB.png"> -->
         </ion-thumbnail>
-        <ion-label><h1><strong>What Goes Where?</strong></h1> Ask Roscoe!</ion-label>
+        <ion-label class="ion-text-wrap"><h1><strong>What Goes Where?</strong></h1> Ask Roscoe!</ion-label>
       </ion-item>
       
     
@@ -46,7 +50,7 @@
       <ion-list id="search-results">
         <!-- <ion-list-header>Popular Searches</ion-list-header> -->
         <ion-item *ngFor="let material of searchResults">
-          <ion-button color="success" expand="full" [innerHTML]="material.name" [attr.data-material-id]="material.id" (click)="openDetailsWithState($event)">
+          <ion-button color="success" size="medium" [innerHTML]="material.name" [attr.data-material-id]="material.id" (click)="openDetailsWithState($event)">
           </ion-button>
         </ion-item>
       </ion-list>
@@ -60,13 +64,13 @@
           <img src = "../../assets/RecyclingRoscoeSquare.png">
           <!-- <img src="../../assets/icon/TCNJ SPIRIT HEAD FULL COLOR RGB.png"> -->
         </ion-thumbnail>
-        <ion-label><h1><strong>Top Materials</strong></h1>These are commonly searched items.</ion-label>
+        <ion-label class="ion-text-wrap"><h1><strong>Top Materials</strong></h1>These are commonly searched items.</ion-label>
       </ion-item>
       
 
       <ion-list>
         <ion-item *ngFor="let material of popMaterials">
-          <ion-button color="success" expand="full" [innerHTML]="material.name" [attr.data-material-id]="material.id" (click)="openDetailsWithState($event)">
+          <ion-button color="success" size="medium" [innerHTML]="material.name" [attr.data-material-id]="material.id" (click)="openDetailsWithState($event)">
           </ion-button>
         </ion-item>
       </ion-list>
