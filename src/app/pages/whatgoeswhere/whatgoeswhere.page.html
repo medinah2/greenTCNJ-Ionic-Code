@@ -23,17 +23,18 @@
   <div [ngSwitch]="type">
     <ion-list *ngSwitchCase="'all'">
 
-      <ion-list-header>
+      <!-- <ion-list-header>
         <ion-title> 
           Not sure where something goes? 
         </ion-title>
-      </ion-list-header>
+      </ion-list-header> -->
 
       <ion-item>
         <ion-thumbnail slot="start">
           <img src = "../../assets/RecyclingRoscoeSquare.png">
+          <!-- <img src="../../assets/icon/TCNJ SPIRIT HEAD FULL COLOR RGB.png"> -->
         </ion-thumbnail>
-        <ion-label>Ask Roscoe!</ion-label>
+        <ion-label><h1><strong>What Goes Where?</strong></h1> Ask Roscoe!</ion-label>
       </ion-item>
       
     
@@ -45,7 +46,7 @@
       <ion-list id="search-results">
         <!-- <ion-list-header>Popular Searches</ion-list-header> -->
         <ion-item *ngFor="let material of searchResults">
-          <ion-button [innerHTML]="material.name" [attr.data-material-id]="material.id" (click)="openDetailsWithState($event)">
+          <ion-button color="success" expand="full" [innerHTML]="material.name" [attr.data-material-id]="material.id" (click)="openDetailsWithState($event)">
           </ion-button>
         </ion-item>
       </ion-list>
@@ -54,23 +55,18 @@
 
     <ion-list *ngSwitchCase="'popular'">
       <!-- Here is where we display the popular materials () -->
-      <ion-list-header>
-        <ion-title> 
-          These are the most popular searched materials.
-        </ion-title>
-      </ion-list-header>
-      
       <ion-item>
         <ion-thumbnail slot="start">
           <img src = "../../assets/RecyclingRoscoeSquare.png">
+          <!-- <img src="../../assets/icon/TCNJ SPIRIT HEAD FULL COLOR RGB.png"> -->
         </ion-thumbnail>
-        <ion-label>Ask Roscoe!</ion-label>
+        <ion-label><h1><strong>Top Materials</strong></h1>These are commonly searched items.</ion-label>
       </ion-item>
       
 
       <ion-list>
         <ion-item *ngFor="let material of popMaterials">
-          <ion-button [innerHTML]="material.name" [attr.data-material-id]="material.id" (click)="openDetailsWithState($event)">
+          <ion-button color="success" expand="full" [innerHTML]="material.name" [attr.data-material-id]="material.id" (click)="openDetailsWithState($event)">
           </ion-button>
         </ion-item>
       </ion-list>
@@ -82,13 +78,10 @@
   <ion-footer class="ion-no-border">
     <ion-toolbar>
       <ion-item>
-      <ion-text>Looking for a material that is not on our list?</ion-text>
-      <br> 
-      <a [routerLink]="['/suggestmaterial']" class="small-text">Submit a material here!</a>
-
+        <ion-text>Looking for a material that is not on our list? 
+          <a [routerLink]="['/suggestmaterial']" class="small-text">Submit a material here!</a>
+        </ion-text>
       </ion-item>
-
-
     </ion-toolbar>
   </ion-footer>
 

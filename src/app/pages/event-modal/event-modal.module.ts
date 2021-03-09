@@ -9,11 +9,14 @@ import { EventModalPageRoutingModule } from './event-modal-routing.module';
 
 import { EventModalPage } from './event-modal.page';
 
+import { IonicStorageModule } from '@ionic/storage';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    IonicStorageModule.forRoot(),
     ReactiveFormsModule,
     EventModalPageRoutingModule
   ],

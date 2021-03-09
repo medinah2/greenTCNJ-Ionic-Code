@@ -13,13 +13,13 @@
 
 <ion-content>
   <ion-list>
-    <ion-item lines="full">
+    <!-- <ion-item lines="full">
       <ion-icon slot="start" name="moon"></ion-icon>
       <ion-label>
         Toggle Dark Theme
       </ion-label>
       <ion-toggle (ionChange)="onClick($event)" slot="end"></ion-toggle>
-    </ion-item>
+    </ion-item> -->
 
     <ion-item lines="full">
       <ion-label>
@@ -31,12 +31,14 @@
   </ion-list>
 
 
+  <br>
   <ion-list>
-    <ion-title>Manage my Interests</ion-title>
+    <ion-title>Manage my interests</ion-title>
     <ion-item *ngFor="let entry of form">
       <ion-label>{{entry.val}}</ion-label>
       <ion-checkbox slot="end" (ionChange)="boxChecked($event)" [(ngModel)]="entry.isChecked"></ion-checkbox>
     </ion-item>
+    <ion-button [disabled]="buttonDisabled" color="success" expand="full" (click)="updateUserInterests()">Update Interests</ion-button>
   </ion-list>
   
 

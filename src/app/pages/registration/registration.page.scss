@@ -18,8 +18,10 @@ ion-img.center {
 }
 
 ion-slides, ion-slide {
-    height: 100%;
-    width: auto;
+    //height: 100%;
+   // width: auto;
+//    width: 100vw;
+//    height: 100vh;
     --bullet-background-active: rgb(4, 252, 128);
     --bullet-background: #000;
 }

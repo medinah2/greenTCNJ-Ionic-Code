@@ -57,10 +57,13 @@
         <div class="validation-errors">
           <span *ngIf="loginFailure()">Email or password entered was incorrect</span>        
         </div>
-
-        <ion-button type="submit" color="danger" expand="block">Login</ion-button>
-        <a [routerLink]="['/recover-password']" class="small-text">Forgot Password?</a>
+        <ion-button type="submit" color="success" expand="block">Login</ion-button>
       </ion-col>
     </ion-row>
+
+    <ion-item lines="none" class="ion-no-padding">
+      <a style="margin: 0 auto; padding: 0 auto;" [routerLink]="['/recover-password']" class="small-text">Forgot Password?</a>
+    </ion-item>
+
   </form>
 </ion-content>

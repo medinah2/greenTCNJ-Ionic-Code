@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Router, NavigationExtras } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { formatDate } from '@angular/common';
-import { EventModalPage } from '../event-modal-copy/event-modal.page';
+import { EventModalPage } from '../event-modal/event-modal.page';
 import { Storage } from '@ionic/storage';
 
 @Component({
