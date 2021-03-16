@@ -21,8 +21,10 @@
       <ion-text>Having issues within the application or with green initiatives on campus?  Submit your reports here.</ion-text>
 
       <br>
-      <ion-label position="floating">Report Issue</ion-label>
-      <ion-textarea formControlName="word" type="text" required></ion-textarea>
+      <ion-label position="floating">Report Issue
+        <span *ngIf="formInputIsRequired('word')" class="required">&#42;</span>
+      </ion-label>
+      <ion-textarea formControlName="word" type="text" autoGrow="true" required></ion-textarea>
     </ion-item>
 
     <div class="validation-errors">

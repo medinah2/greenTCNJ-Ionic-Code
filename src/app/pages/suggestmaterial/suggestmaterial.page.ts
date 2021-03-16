@@ -74,6 +74,7 @@ export class SuggestmaterialPage{
           } else {
             this.wordSent = true;
             console.log("word submitted");
+            this.wordForm.reset(); 
           }
       });
 
@@ -82,6 +83,15 @@ export class SuggestmaterialPage{
 
   wordFailure(){
     return this.wordSent;
+  }
+
+  formInputIsRequired(formInput: string) {
+    if (this.wordForm.controls[formInput]) {
+      if (this.wordForm.controls[formInput].hasError('required')) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }

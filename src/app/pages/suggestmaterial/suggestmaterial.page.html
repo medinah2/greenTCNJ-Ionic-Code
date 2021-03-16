@@ -18,11 +18,14 @@
     <ion-item lines="full">
       <br>
       <br>
-      <ion-text>Suggest a material to be added to the application, an admin will review your suggestion.</ion-text>
+      <ion-text>Suggest a material to be added to the application, an admin will review your suggestion.  A material description is optional if you wish to include one.</ion-text>
 
       <br>
-      <ion-label position="floating">Suggested Material</ion-label>
-      <ion-input formControlName="word" type="text" required></ion-input>
+      <ion-label position="floating">Suggested Material
+        <span *ngIf="formInputIsRequired('word')" class="required">&#42;</span>
+      </ion-label>
+      <ion-input formControlName="word" type="text" autoGrow="true" required></ion-input>
+      
     </ion-item>
 
     <div class="validation-errors">
@@ -34,12 +37,13 @@
     </div>
 
     <ion-item lines="full">
-      <br>
-      <br>
+      
       <ion-label position="floating">Material Description</ion-label>
-      <ion-input formControlName="description" type="text"></ion-input>
+      <ion-textarea formControlName="description" type="text" autoGrow="true"></ion-textarea>
     </ion-item>
 
+    <br>
+    
     <ion-row>
       <ion-col>
         <ion-button type="submit" color="success" expand="block">Submit</ion-button>
