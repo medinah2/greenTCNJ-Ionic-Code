@@ -29,6 +29,11 @@ export class LoginPage {
   pageLoaded: boolean = false;
   user: any;
 
+
+  wrongInput: boolean = false;
+  correctInput: boolean = false;
+  missingInput: boolean = false;
+
   constructor(private  userService: UserService, private storage: Storage, public menuCtrl: MenuController, private alertController: AlertController, private authService: AuthenticationService, private router: Router, public http: HttpClient, public navCtrl: NavController, public formBuilder: FormBuilder, private loadingController: LoadingController) {
     this.loginForm = formBuilder.group({
         // Require validators for the input fields so we can quickly tell them if their input is valid, the patten string is what characters
@@ -58,6 +63,64 @@ export class LoginPage {
 
 
 
+
+
+checkValidLogin(){
+  if(!this.loginForm.valid){
+    console.log("INVALID");
+  }else{
+    console.log("VALID");
+
+          // Find a way to get email and password input from user
+          var obj = {func: "try_login", email: this.loginForm.value['email'], password: this.loginForm.value['password']};
+          
+          this.http.post("https://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).subscribe(data => {
+                
+            var result = data as any[];
+    
+              if(result["loginSuccess"]){
+                this.invalidLogin = false;
+    
+                // this is used to store user info within the app 
+                this.storage.set('userID', result['userInfo']['user_id']); 
+                this.storage.set('userName', result['userInfo']['user_first_name'] + ' ' + result['userInfo']['user_last_name']);
+                this.storage.set('userType', result['userInfo']['user_type']);
+                this.storage.set('userEmail', result["userInfo"]["user_email"]);
+    
+                // "recycling_interest", "water_interest", "pollution_interest", "energy_interest"
+                this.storage.set('userRecyclingInterest', result["userInfo"]["recycling_interest"]);
+                this.storage.set('userWaterInterest', result["userInfo"]["water_interest"]);
+                this.storage.set('userPollutionInterest', result["userInfo"]["pollution_interest"]);
+                this.storage.set('userEnergyInterest', result["userInfo"]["energy_interest"]);
+    
+                console.log("LOGIN SUCCESS, " + result['userInfo']["recycling_interest"]);
+                console.log("LOGIN SUCCESS, " + result['userInfo']["water_interest"]);
+                console.log("LOGIN SUCCESS, " + result['userInfo']["pollution_interest"]);
+                console.log("LOGIN SUCCESS, " + result['userInfo']["energy_interest"]);
+    
+                this.invalidLogin = false;
+                //this.navigateToHomePage();
+                this.correctInput = true;
+
+                
+              }else if(result["missingInputs"]){
+                // output error message of missing inputs
+                this.invalidLogin = true;
+                console.log("Missing Input");
+                this.missingInput = true;
+                    
+              }else{
+                // dont move to next page and output error message "Email or password entered was incorrect"
+                console.log("Email or password was incorrect");
+                this.invalidLogin = true;
+                console.log("huh?" + result[1] + result[1]);    
+                this.wrongInput = true;      
+              }
+          });
+
+  }
+}
+
   async login(){
 
     const loading = await this.loadingController.create();
@@ -80,66 +143,34 @@ export class LoginPage {
           await alert.present();
         }
       );
-    }
-    else{
+    }else{
       console.log("VALID");
-     
-      // Find a way to get email and password input from user
-      var obj = {func: "try_login", email: this.loginForm.value['email'], password: this.loginForm.value['password']};
-          
-      this.http.post("https://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).subscribe(data => {
-            
-        var result = data as any[];
+      if(this.loginSuccess()){
+        loading.dismiss();
+        this.invalidLogin = false;
+        this.navigateToHomePage();
 
-          if(result["loginSuccess"]){
-            this.invalidLogin = false;
+        console.log("Home page?");
 
-            // this is used to store user info within the app 
-            this.storage.set('userID', result['userInfo']['user_id']); 
-            this.storage.set('userName', result['userInfo']['user_first_name'] + ' ' + result['userInfo']['user_last_name']);
-            this.storage.set('userType', result['userInfo']['user_type']);
-            this.storage.set('userEmail', result["userInfo"]["user_email"]);
+      }else if(this.missingValues()){
+        this.invalidLogin = true;
+        console.log("Missing Input");
+        
+        this.authService.login(this.loginForm.value).subscribe(
+          async (res) => {
+            await loading.dismiss();
+            const alert = await this.alertController.create({
+              header: 'Login failed',
+              message: 'You are missing input.',
+              buttons: ['OK'],
+            });
+            await alert.present();
+          }
+        );
 
-            // "recycling_interest", "water_interest", "pollution_interest", "energy_interest"
-            this.storage.set('userRecyclingInterest', result["userInfo"]["recycling_interest"]);
-            this.storage.set('userWaterInterest', result["userInfo"]["water_interest"]);
-            this.storage.set('userPollutionInterest', result["userInfo"]["pollution_interest"]);
-            this.storage.set('userEnergyInterest', result["userInfo"]["energy_interest"]);
-
-            console.log("LOGIN SUCCESS, " + result['userInfo']["recycling_interest"]);
-            console.log("LOGIN SUCCESS, " + result['userInfo']["water_interest"]);
-            console.log("LOGIN SUCCESS, " + result['userInfo']["pollution_interest"]);
-            console.log("LOGIN SUCCESS, " + result['userInfo']["energy_interest"]);
-
-
-            loading.dismiss();
-            this.invalidLogin = false;
-            this.navigateToHomePage();
-
-            console.log("Home page?");
-            
-          }else if(result["missingInputs"]){
-            // output error message of missing inputs
+      }else{
+        console.log("Email or password was incorrect");
             this.invalidLogin = true;
-            console.log("Missing Input");
-            
-            this.authService.login(this.loginForm.value).subscribe(
-              async (res) => {
-                await loading.dismiss();
-                const alert = await this.alertController.create({
-                  header: 'Login failed',
-                  message: 'You are missing input.',
-                  buttons: ['OK'],
-                });
-                await alert.present();
-              }
-            );
-
-          }else{
-            // dont move to next page and output error message "Email or password entered was incorrect"
-            console.log("Email or password was incorrect");
-            this.invalidLogin = true;
-            console.log("huh?" + result[1] + result[1]);
 
             this.authService.login(this.loginForm.value).subscribe(
               async (res) => {
@@ -152,9 +183,9 @@ export class LoginPage {
                 await alert.present();
               }
             );
-            
-          }
-      });
+
+      }
+
     }
      
   }
@@ -184,6 +215,24 @@ navigateToHomePage() {
 loginFailure(){
 
   return this.invalidLogin;
+
+}
+
+wrongCredientals(){
+
+  return this.wrongInput;
+
+}
+
+loginSuccess(){
+
+  return this.correctInput;
+
+}
+
+missingValues(){
+
+  return this.missingInput;
 
 }
 

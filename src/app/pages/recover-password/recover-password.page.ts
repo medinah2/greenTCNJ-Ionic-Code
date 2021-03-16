@@ -60,6 +60,7 @@ export class RecoverPasswordPage{
           } else {
             this.emailSent = true;
             console.log("email sent");
+            this.emailForm.reset(); 
           }
       });
     }

@@ -60,7 +60,7 @@
         <div class="validation-errors">
           <span *ngIf="loginFailure()">Email or password entered was incorrect</span>        
         </div>
-        <ion-button type="submit" color="success" expand="block">Login</ion-button>
+        <ion-button type="submit" color="success" expand="block" (click)="checkValidLogin()">Login</ion-button>
       </ion-col>
     </ion-row>
 
