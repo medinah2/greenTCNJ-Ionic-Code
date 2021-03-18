@@ -32,7 +32,7 @@ export class HomePage {
     
     storage.get('userName').then((val) => {
       console.log('Your name is', val);
-      this.welcomeMsg = "Welcome to Green TCNJ "+ '</br>&#9' + val + "!";
+      this.welcomeMsg = "Welcome to Green TCNJ " + val + "!";
     });
     
   }

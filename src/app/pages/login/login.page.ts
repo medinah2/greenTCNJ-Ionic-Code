@@ -83,7 +83,7 @@ checkValidLogin(){
     
                 // this is used to store user info within the app 
                 this.storage.set('userID', result['userInfo']['user_id']); 
-                this.storage.set('userName', result['userInfo']['user_first_name'] + ' ' + result['userInfo']['user_last_name']);
+                this.storage.set('userName', result['userInfo']['user_first_name']);
                 this.storage.set('userType', result['userInfo']['user_type']);
                 this.storage.set('userEmail', result["userInfo"]["user_email"]);
     
