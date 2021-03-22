@@ -43,8 +43,8 @@ const routes: Routes = [
   },
   {
     path: 'campusresources',
-    loadChildren: () => import('./pages/campusresources/campusresources.module').then( m => m.CampusresourcesPageModule),
-    canLoad: [AuthGuard]
+    loadChildren: () => import('./pages/campusresources/campusresources.module').then( m => m.CampusresourcesPageModule)
+    //canLoad: [AuthGuard]
   },
   {
     path: 'event-modal',
