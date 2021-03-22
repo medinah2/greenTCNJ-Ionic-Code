@@ -111,6 +111,14 @@ createStaticNormalDayEvents(events) {
       });
   }
 }
+  passEventArray(ev: any){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        events: this.eventSource 
+      }
+    };
+    this.router.navigate(['/my-registered-events'], navigationExtras);
+  }
 
   async onEventSelected(event) {
 

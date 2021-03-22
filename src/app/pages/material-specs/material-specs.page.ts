@@ -51,6 +51,10 @@ export class MaterialSpecsPage {
           }
           
       });
+
+      var obj2 = {func: "material_viewed"};
+
+      this.http.post("https://recycle.hpc.tcnj.edu/php/materials-handler.php", JSON.stringify(obj2)).subscribe(data => {});
     }
     
 }

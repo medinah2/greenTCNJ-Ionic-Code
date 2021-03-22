@@ -94,5 +94,23 @@
     </ion-list>
   </ng-template>
   
+  <!-- <ion-footer class="ion-no-border">
+    <ion-toolbar>
+      <ion-item>
+        <ion-text>Looking for a material that is not on our list? 
+          <a [routerLink]="['/suggestmaterial']" class="small-text">Submit a material here!</a>
+        </ion-text>
+      </ion-item>
+    </ion-toolbar>
+  </ion-footer> -->
 
 </ion-content>
+
+
+  <ion-footer class="ion-no-border">
+    <ion-toolbar>
+
+        <ion-button (click)="passEventArray($event)" class="small-text" color="success" expand="block">My Registered Events</ion-button>
+
+    </ion-toolbar>
+  </ion-footer>

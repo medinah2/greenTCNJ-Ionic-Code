@@ -66,6 +66,8 @@ export class LoginPage {
 
 
 checkValidLogin(){
+  console.log("Reaching this on submit?");
+
   if(!this.loginForm.valid){
     console.log("INVALID");
   }else{
@@ -80,6 +82,7 @@ checkValidLogin(){
     
               if(result["loginSuccess"]){
                 this.invalidLogin = false;
+                console.log("VALID LOGIN " + result['userInfo']['user_first_name']);
     
                 // this is used to store user info within the app 
                 this.storage.set('userID', result['userInfo']['user_id']); 
@@ -93,10 +96,10 @@ checkValidLogin(){
                 this.storage.set('userPollutionInterest', result["userInfo"]["pollution_interest"]);
                 this.storage.set('userEnergyInterest', result["userInfo"]["energy_interest"]);
     
-                console.log("LOGIN SUCCESS, " + result['userInfo']["recycling_interest"]);
-                console.log("LOGIN SUCCESS, " + result['userInfo']["water_interest"]);
-                console.log("LOGIN SUCCESS, " + result['userInfo']["pollution_interest"]);
-                console.log("LOGIN SUCCESS, " + result['userInfo']["energy_interest"]);
+                // console.log("LOGIN SUCCESS, " + result['userInfo']["recycling_interest"]);
+                // console.log("LOGIN SUCCESS, " + result['userInfo']["water_interest"]);
+                // console.log("LOGIN SUCCESS, " + result['userInfo']["pollution_interest"]);
+                // console.log("LOGIN SUCCESS, " + result['userInfo']["energy_interest"]);
     
                 this.invalidLogin = false;
                 //this.navigateToHomePage();
@@ -145,7 +148,9 @@ checkValidLogin(){
       );
     }else{
       console.log("VALID");
+
       if(this.loginSuccess()){
+        console.log("What goes first?");
         loading.dismiss();
         this.invalidLogin = false;
         this.navigateToHomePage();

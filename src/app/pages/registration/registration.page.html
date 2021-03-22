@@ -11,7 +11,7 @@
 
 <ion-content>
     <form [formGroup]="signupForm" (ngSubmit)="trySignup()">
-  <ion-slides pager="true">
+  <ion-slides [options]="{onlyExternal: true}" pager="false">
 
   <ion-slide>
   <ion-list>
@@ -95,7 +95,7 @@
       </ng-container>
     </div>
 
-    <ion-item lines="full">
+    <ion-item lines="full" type="submit">
       <ion-label position="floating">Confirm Password</ion-label>
       <ion-input  formControlName="passwordRepeat" type="password" required></ion-input>
 
@@ -111,9 +111,9 @@
 
     <ion-list> 
     
-      <ion-item>
+      <ion-item type="submit">
         <ion-label>Type of User</ion-label>
-        <ion-select formControlName="userType" placeholder="Select One" required>
+        <ion-select formControlName="userType" placeholder="Select One" type="submit" required>
           <ion-select-option value="Student">Student</ion-select-option>
           <ion-select-option value="Faculty">Faculty</ion-select-option>
           <ion-select-option value="Staff">Staff</ion-select-option>
@@ -140,7 +140,7 @@
           <span *ngIf="registrationFailure()">Email is allready in use.</span>        
         </div>
       <!-- <ion-button type="submit" color="danger" expand="block">Sign Up</ion-button> -->
-      <ion-button (click)="next()" fill="outline" color="success" >Next</ion-button>
+      <ion-button [disabled]="!signupForm.valid" [color]="isDisabled? 'danger':'primary'" (click)="next()">Next</ion-button>
       <br>
       <br>
         
@@ -155,12 +155,19 @@
   <ion-slide>
 
     <ion-list>
+      <br>
+      <ion-item lines="full">
+        <ion-img class="center" src="../../assets/RecyclingRoscoeSquare.png" vertical-align="middle"></ion-img>
+      </ion-item> 
+      <br>
+
 
       <ion-list-header>
         <ion-label>
-          Please Select the topics that interest you!
+          <h1> Please select the topics that interest you!</h1>
         </ion-label>
       </ion-list-header>
+      <br>
     
       <!-- <p>test</p>
       <ion-item *ngFor="let entry of form">
@@ -188,6 +195,7 @@
         <ion-checkbox  slot="start" (ionChange)="addValue($event)"></ion-checkbox>
         <ion-label>Energy</ion-label>
       </ion-item>
+      <br>
 
     <!-- <ion-button [routerLink]="['/login']" expand="block" color="danger">Submit</ion-button> -->
 

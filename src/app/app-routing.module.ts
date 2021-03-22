@@ -13,33 +13,33 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
-    canLoad: [AuthGuard]
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    //canLoad: [AuthGuard]
   },
   {
     path: 'whatgoeswhere',
-    loadChildren: () => import('./pages/whatgoeswhere/whatgoeswhere.module').then( m => m.WhatgoeswherePageModule),
-    canLoad: [AuthGuard]
+    loadChildren: () => import('./pages/whatgoeswhere/whatgoeswhere.module').then( m => m.WhatgoeswherePageModule)
+    //canLoad: [AuthGuard]
   },
   {
     path: 'schedule',
-    loadChildren: () => import('./pages/schedule/schedule.module').then( m => m.SchedulePageModule),
-    canLoad: [AuthGuard]
+    loadChildren: () => import('./pages/schedule/schedule.module').then( m => m.SchedulePageModule)
+    //canLoad: [AuthGuard]
   },
   {
     path: 'news',
-    loadChildren: () => import('./pages/news/news.module').then( m => m.NewsPageModule),
-    canLoad: [AuthGuard]
+    loadChildren: () => import('./pages/news/news.module').then( m => m.NewsPageModule)
+    //canLoad: [AuthGuard]
   },
   {
     path: 'settings',
-    loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule),
-    canLoad: [AuthGuard]
+    loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule)
+    //canLoad: [AuthGuard]
   },
   {
     path: 'reportissue',
-    loadChildren: () => import('./pages/reportissue/reportissue.module').then( m => m.ReportissuePageModule),
-    canLoad: [AuthGuard]
+    loadChildren: () => import('./pages/reportissue/reportissue.module').then( m => m.ReportissuePageModule)
+    //canLoad: [AuthGuard]
   },
   {
     path: 'campusresources',
@@ -48,8 +48,8 @@ const routes: Routes = [
   },
   {
     path: 'event-modal',
-    loadChildren: () => import('./pages/event-modal/event-modal.module').then( m => m.EventModalPageModule),
-    canLoad: [AuthGuard]
+    loadChildren: () => import('./pages/event-modal/event-modal.module').then( m => m.EventModalPageModule)
+    //canLoad: [AuthGuard]
   },
   {
     path: 'login',
@@ -70,8 +70,8 @@ const routes: Routes = [
   },
   {
     path: 'material-specs',
-    loadChildren: () => import('./pages/material-specs/material-specs.module').then( m => m.MaterialSpecsPageModule),
-    canLoad: [AuthGuard]
+    loadChildren: () => import('./pages/material-specs/material-specs.module').then( m => m.MaterialSpecsPageModule)
+    //canLoad: [AuthGuard]
   },
   {
     path: 'reset-password',
@@ -100,6 +100,10 @@ const routes: Routes = [
   {
     path: 'news-modal',
     loadChildren: () => import('./pages/news-modal/news-modal.module').then( m => m.NewsModalPageModule)
+  },
+  {
+    path: 'my-registered-events',
+    loadChildren: () => import('./pages/my-registered-events/my-registered-events.module').then( m => m.MyRegisteredEventsPageModule)
   },
 ];
 

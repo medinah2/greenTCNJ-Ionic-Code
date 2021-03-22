@@ -19,7 +19,7 @@ export class RegistrationPage implements OnInit{
   tempTest: {recycling_interest: boolean, water_interest: boolean, pollution_interest: boolean, energy_interest: boolean};
   temp: {recycling: any, water: any, pollution: any, energy: any};
   testing: boolean[];
-
+  buttonDisabled: any;
   
 
   ngOnInit() {
@@ -58,6 +58,18 @@ export class RegistrationPage implements OnInit{
       pollution: 0, 
       energy: 0
     };
+    this.buttonDisabled = true;
+   // this.slides.lockSwipeToNext(true); 
+   if(!this.signupForm.valid){
+    console.log("INVALID");
+    this.buttonDisabled = true;
+    
+  }
+  else{
+    console.log("VALID");
+    this.buttonDisabled = false;
+  }
+  
   }
 
   // responsible for printing error messages to the screen based on validator 
@@ -98,10 +110,12 @@ export class RegistrationPage implements OnInit{
 
     if(!this.signupForm.valid){
       console.log("INVALID");
+      this.buttonDisabled = true;
       
     }
     else{
       console.log("VALID");
+      this.buttonDisabled = false;
 
       var email = this.signupForm.value['email'];
       var pwd = this.signupForm.value['password'];
@@ -131,10 +145,12 @@ export class RegistrationPage implements OnInit{
             // output error message of missing inputs
             console.log("Missing Input");
             this.invalidRegistration = true;
+            this.buttonDisabled = true;
           }
           else if(result["passwordMismatch"]){
             console.log("passwords didnt match");
             this.invalidRegistration = true;
+            this.buttonDisabled = true;
           }
           else{
             // dont move to next page and output error message "Email or password entered was incorrect"
@@ -203,7 +219,19 @@ formInputIsRequired(formInput: string) {
 }
 
 next() {
-  this.slides.slideNext();
+  console.log("Working?");
+  if(this.signupForm.valid){
+    this.slides.slideNext();
+  }
+  
+}
+
+fillForm(){
+  if(this.signupForm.valid){
+    this.slides.lockSwipeToNext(false);
+  }else{
+    this.slides.lockSwipeToNext(true);
+  }
 }
 
 addValue(e): void {
