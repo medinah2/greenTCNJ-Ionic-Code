@@ -22,19 +22,6 @@ export class MyRegisteredEventsPage{
   gotAllEvents: any;
   type: string; // used to initialize tab to the view all page 
 
-  // : {title: any, startTime: any, endTime: any, desc: any, allDay: any, ID: any, registered: any}
-  // materialResult: {name: any, type: any, description: any, resources: any, image: any}[] = [];
-
-//   this.eventSource.push({
-//     title: name,
-//     startTime: startTime,
-//     endTime: endTime,
-//     desc: description,
-//     allDay: false,
-//     ID: events[i]["event_id"],
-//     registered: (events[i]["attended"] != null)
-// });
-
   constructor(private router: Router, private route: ActivatedRoute, public http: HttpClient,private alertCtrl: AlertController,
     @Inject(LOCALE_ID) private locale: string,private modalCtrl: ModalController) { 
       
