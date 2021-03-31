@@ -18,7 +18,6 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./login.page.scss'],
 })
 
-// export class LoginPage implements OnInit {
 export class LoginPage {
   
   emailInput: string = "";
@@ -33,6 +32,7 @@ export class LoginPage {
   wrongInput: boolean = false;
   correctInput: boolean = false;
   missingInput: boolean = false;
+  canLogin: boolean = false;
 
   constructor(private  userService: UserService, private storage: Storage, public menuCtrl: MenuController, private alertController: AlertController, private authService: AuthenticationService, private router: Router, public http: HttpClient, public navCtrl: NavController, public formBuilder: FormBuilder, private loadingController: LoadingController) {
     this.loginForm = formBuilder.group({
@@ -44,7 +44,6 @@ export class LoginPage {
     this.menuCtrl.enable(false);
     this.user = this.userService;
     // this.testlogin();
-
     
   }
 
@@ -59,10 +58,7 @@ export class LoginPage {
       'password': [
         { type: 'required', message: 'A password is required.' }
       ]
-    }
-
-
-
+  }
 
 
 checkValidLogin(){
@@ -84,44 +80,51 @@ checkValidLogin(){
                 this.invalidLogin = false;
                 console.log("VALID LOGIN " + result['userInfo']['user_first_name']);
     
-                // this is used to store user info within the app 
+                // this is used to store user info within the app, stores userID, Name, type, and email 
                 this.storage.set('userID', result['userInfo']['user_id']); 
                 this.storage.set('userName', result['userInfo']['user_first_name']);
                 this.storage.set('userType', result['userInfo']['user_type']);
                 this.storage.set('userEmail', result["userInfo"]["user_email"]);
     
+                // used to set user interests within the app
                 // "recycling_interest", "water_interest", "pollution_interest", "energy_interest"
                 this.storage.set('userRecyclingInterest', result["userInfo"]["recycling_interest"]);
                 this.storage.set('userWaterInterest', result["userInfo"]["water_interest"]);
                 this.storage.set('userPollutionInterest', result["userInfo"]["pollution_interest"]);
                 this.storage.set('userEnergyInterest', result["userInfo"]["energy_interest"]);
     
-                // console.log("LOGIN SUCCESS, " + result['userInfo']["recycling_interest"]);
-                // console.log("LOGIN SUCCESS, " + result['userInfo']["water_interest"]);
-                // console.log("LOGIN SUCCESS, " + result['userInfo']["pollution_interest"]);
-                // console.log("LOGIN SUCCESS, " + result['userInfo']["energy_interest"]);
-    
                 this.invalidLogin = false;
-                //this.navigateToHomePage();
                 this.correctInput = true;
+                this.missingInput = false;
+                this.wrongInput = false;
 
                 
               }else if(result["missingInputs"]){
                 // output error message of missing inputs
-                this.invalidLogin = true;
+                
                 console.log("Missing Input");
+
+                this.invalidLogin = true;
+                this.correctInput = false;
                 this.missingInput = true;
+                this.wrongInput = false;
                     
               }else{
                 // dont move to next page and output error message "Email or password entered was incorrect"
                 console.log("Email or password was incorrect");
-                this.invalidLogin = true;
+                
                 console.log("huh?" + result[1] + result[1]);    
+
+                this.invalidLogin = true;
+                this.correctInput = false;
+                this.missingInput = false;
                 this.wrongInput = true;      
               }
           });
 
+          
   }
+  this.canLogin  = true;
 }
 
   async login(){
@@ -129,10 +132,9 @@ checkValidLogin(){
     const loading = await this.loadingController.create();
     await loading.present();
 
-    console.log("tryLogin");
     console.log(this.loginForm.value);
     
-    if(!this.loginForm.valid){
+    if(!this.loginForm.valid && this.canLogin){
       console.log("INVALID");
 
       this.authService.login(this.loginForm.value).subscribe(
@@ -149,16 +151,25 @@ checkValidLogin(){
     }else{
       console.log("VALID");
 
-      if(this.loginSuccess()){
-        console.log("What goes first?");
-        loading.dismiss();
-        this.invalidLogin = false;
-        this.navigateToHomePage();
+      // valid login
+      if(this.loginSuccess() && !this.missingValues() && !this.wrongCredientals() ){
 
-        console.log("Home page?");
+        this.authService.login(this.loginForm.value).subscribe(
+          async (res) => {
+            console.log("What goes first?");
+            loading.dismiss();
+            this.invalidLogin = false;
+            this.navigateToHomePage();
+          }
+        );
 
-      }else if(this.missingValues()){
-        this.invalidLogin = true;
+        this.correctInput = true;
+        this.missingInput = false;
+        this.wrongInput = false;
+
+      // missing input  
+      }else if(!this.loginSuccess() && this.missingValues() && !this.wrongCredientals()){
+
         console.log("Missing Input");
         
         this.authService.login(this.loginForm.value).subscribe(
@@ -173,21 +184,37 @@ checkValidLogin(){
           }
         );
 
-      }else{
-        console.log("Email or password was incorrect");
-            this.invalidLogin = true;
+        this.correctInput = false;
+        this.missingInput = true;
+        this.wrongInput = false;
 
-            this.authService.login(this.loginForm.value).subscribe(
-              async (res) => {
-                await loading.dismiss();
-                const alert = await this.alertController.create({
-                  header: 'Login failed',
-                  message: 'Your email or password was incorrect',
-                  buttons: ['OK'],
-                });
-                await alert.present();
-              }
-            );
+      // wrong credentials 
+      }else if(!this.loginSuccess() && !this.missingValues() && this.wrongCredientals()){
+        
+        console.log("Email or password was incorrect");
+
+        this.authService.login(this.loginForm.value).subscribe(
+          async (res) => {
+            await loading.dismiss();
+            const alert = await this.alertController.create({
+              header: 'Login failed',
+              message: 'Your email or password was incorrect',
+              buttons: ['OK'],
+            });
+            await alert.present();
+          }
+        );
+
+        this.correctInput = false;
+        this.missingInput = false;
+        this.wrongInput = true;
+
+      // should never resch here   
+      }else{
+        console.log("WHAT THE HECK?");
+        console.log(this.loginSuccess() + " " + this.missingValues() + " " + this.wrongCredientals());
+
+        loading.dismiss();
 
       }
 
@@ -195,50 +222,46 @@ checkValidLogin(){
      
   }
 
-
-tryLogin(){
-  console.log("Other Login function");
-} 
-
-navigateToHomePage() {
-  console.log("Why isn't this working?");
-  this.pageLoaded = true;
-  this.menuCtrl.enable(true);
-  this.router.navigate(['/home'], { replaceUrl: true });
-  this.router.navigateByUrl('/home').then(success => console.log(`routing status: ${success}`));
-}
-
- formInputIsRequired(formInput: string) {
-  if (this.loginForm.controls[formInput]) {
-    if (this.loginForm.controls[formInput].hasError('required')) {
-      return true;
-    }
+  navigateToHomePage() {
+    console.log("Working?");
+    this.pageLoaded = true;
+    this.menuCtrl.enable(true);
+    this.router.navigate(['/home'], { replaceUrl: true });
+    this.router.navigateByUrl('/home').then(success => console.log(`routing status: ${success}`));
   }
-  return false;
-}
 
-loginFailure(){
 
-  return this.invalidLogin;
+  formInputIsRequired(formInput: string) {
+    if (this.loginForm.controls[formInput]) {
+      if (this.loginForm.controls[formInput].hasError('required')) {
+        return true;
+      }
+    }
+    return false;
+  }
 
-}
+  loginFailure(){
 
-wrongCredientals(){
+    return this.invalidLogin;
 
-  return this.wrongInput;
+  }
 
-}
+  wrongCredientals(){
 
-loginSuccess(){
+    return this.wrongInput;
 
-  return this.correctInput;
+  }
 
-}
+  loginSuccess(){
 
-missingValues(){
+    return this.correctInput;
 
-  return this.missingInput;
+  }
 
-}
+  missingValues(){
+
+    return this.missingInput;
+
+  }
 
 }
