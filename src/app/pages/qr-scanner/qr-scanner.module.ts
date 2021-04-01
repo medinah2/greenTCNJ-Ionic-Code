@@ -8,11 +8,13 @@ import { QrScannerPageRoutingModule } from './qr-scanner-routing.module';
 
 import { QrScannerPage } from './qr-scanner.page';
 
+import { IonicStorageModule } from '@ionic/storage';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    IonicStorageModule.forRoot(),
     QrScannerPageRoutingModule
   ],
   declarations: [QrScannerPage]

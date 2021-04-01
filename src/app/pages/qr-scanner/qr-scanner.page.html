@@ -21,6 +21,22 @@
     <p>This page is currently not developed and cannot be tested.  Upon further implementation it will be used to set user attendance at events by scanning an event QR code.</p>
   </ion-item>
 
+  <ion-row>
+    <ion-col>
+      <ion-button type="submit" color="success" expand="block" (click)="scanBarcode()">Scan Attendance QR Code</ion-button>
+
+      <div *ngIf="scannedData">
+        <p>Scanned Text : </p>
+        <p>Scanned Format : </p>
+      </div>
+
+    </ion-col>
+
+    
+  </ion-row>
+
+
+
 
 
 </ion-content>

@@ -13,7 +13,7 @@
 
 <ion-content>
   <!-- Default Segment -->
-  <ion-segment color="primary" [(ngModel)]="type" (ionChange)="segmentChanged($event)" scrollable>
+  <ion-segment color="primary" [(ngModel)]="type" scrollable>
     <ion-segment-button value="all" checked>
       <ion-label>All Items</ion-label>
       <!-- <ion-icon name="cash"></ion-icon> -->
@@ -79,10 +79,10 @@
   </div>
   
   
-  <ion-footer class="ion-no-border">
+  <ion-footer class="ion-no-border padding-vertical">
     <ion-toolbar>
       <ion-item>
-        <ion-text>Looking for a material that is not on our list? 
+        <ion-text class="ion-padding-vertical">Looking for a material that is not on our list? 
           <a [routerLink]="['/suggestmaterial']" class="small-text">Submit a material here!</a>
         </ion-text>
       </ion-item>
