@@ -38,6 +38,7 @@
     "cordova-plugin-splashscreen": "^6.0.0",
     "cordova-sqlite-storage": "^5.1.0",
     "ionic2-calendar": "^0.6.6",
+    "phonegap-plugin-barcodescanner": "^8.1.0",
     "phonegap-plugin-mobile-accessibility": "^1.0.5",
     "phonegap-plugin-multidex": "^1.0.0",
     "phonegap-plugin-push": "^2.3.0",
