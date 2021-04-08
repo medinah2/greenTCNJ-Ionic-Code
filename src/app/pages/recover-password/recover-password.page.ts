@@ -46,9 +46,9 @@ export class RecoverPasswordPage{
       console.log("VALID");
 
       // Find a way to get email and password input from user
-      var obj = {func: "generate_reset", email: this.emailForm.value['email']};
+      var obj = {func: "generate_reset", email: this.emailForm.value['email'], isMobileRequest: true};
     
-      this.http.post("http://recycle.hpc.tcnj.edu/php/password-resets-handler.php", JSON.stringify(obj)).subscribe(data => {
+      this.http.post("https://recycle.hpc.tcnj.edu/php/password-resets-handler.php", JSON.stringify(obj)).subscribe(data => {
       
           var result = data as any[];
 
@@ -60,6 +60,7 @@ export class RecoverPasswordPage{
           } else {
             this.emailSent = true;
             console.log("email sent");
+            this.emailForm.reset(); 
           }
       });
     }

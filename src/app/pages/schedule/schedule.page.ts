@@ -5,12 +5,14 @@ import { Router, NavigationExtras } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { formatDate } from '@angular/common';
 import { EventModalPage } from '../event-modal/event-modal.page';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.page.html',
   styleUrls: ['./schedule.page.scss'],
 })
+
 export class SchedulePage {
   eventSource = [];
   viewTitle: string;
@@ -20,8 +22,6 @@ export class SchedulePage {
   eventStartTime: Date;
   eventEndTime: Date;
 
-  events: {name: any, date: any, start: any, end: any, desc: any}[] = [];
-
   calendar = {
     mode: 'month',
     currentDate: new Date(),
@@ -30,13 +30,10 @@ export class SchedulePage {
   @ViewChild(CalendarComponent) myCal: CalendarComponent;
 
   constructor(private router: Router, public http: HttpClient,private alertCtrl: AlertController,
-    @Inject(LOCALE_ID) private locale: string,private modalCtrl: ModalController) {
+    @Inject(LOCALE_ID) private locale: string,private modalCtrl: ModalController, private storage: Storage) {
 
-    // this.getAllMaterials();
     this.loadAllEvents();
-
-
-}
+  }
 
   next(){
     this.myCal.slideNext();
@@ -57,125 +54,91 @@ export class SchedulePage {
 
   loadEvents(): any[] {
 
-    var obj = {func: "get_all_events"};
+
+    this.storage.get('userID').then((val) => {
+      var obj = {func: "get_my_events", userID: val};
     
-    this.http.post("http://recycle.hpc.tcnj.edu/php/events-handler.php", JSON.stringify(obj)).subscribe(data => {
+      this.http.post("https://recycle.hpc.tcnj.edu/php/events-handler.php", JSON.stringify(obj)).subscribe(data => {
+      
+        var result = data as any[];
+
+        console.log(result);
+
+        this.createStaticNormalDayEvents(result);
+
+        this.myCal.loadEvents();
+          
+      });
+
+  });
     
-      var result = data as any[];
-
-      console.log(result);
-
-      let tempEvent = this.eventSource;
-
-      for(var i = 0; i < result.length; i++){
-        //console.log(result[i]["event_date"]);
-
-        // turns the event date into a date format
-        // var tempDate = new Date(result[i]["event_date"]);
-        // var tempName = result[i]["userType"];
-        // console.log("type: " + result[i]["allow_student"]);
-
-        this.events.push({name: result[i]["event_name"], date: result[i]["event_date"], start: result[i]["start_time"], end: result[i]["end_time"], desc: result[i]["event_description"]});
-
-        }
-
-        this.createStaticNormalDayEvents();
-        
-    });
     return this.eventSource;
 }
 
 
-createStaticNormalDayEvents() {
-  var event = [];
-  for (var i = 0; i < this.events.length; i ++) {
-      var date = new Date(this.events[i]["date"]);
-      var name = this.events[i]["name"];
-      var description = this.events[i]["desc"];
+createStaticNormalDayEvents(events) {
 
-      var start = this.events[i]["start"].split(":", 2);
+  for (var i = 0; i < events.length; i ++) {
+
+      var date = events[i]["event_date"].split("-");
+
+      date = new Date(parseInt(date[0]), parseInt(date[1]) - 1, parseInt(date[2]));
+
+      var name = events[i]["event_name"];
+      var description = events[i]["event_description"];
+
+      var start = events[i]["start_time"].split(":", 2);
 
       var startHour = start[0];
       var startMinute = start[1];
 
-      var end = this.events[i]["end"].split(":", 2);
+      var end = events[i]["end_time"].split(":", 2);
 
       var endHour = end[0];
       var endMinute = end[1];
 
-      var startTime;
-      var endTime;
+      var startTime =  new Date(date.getFullYear(), date.getMonth(), date.getDate(), startHour, startMinute, 0);
+      var endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), endHour, endMinute, 0);
 
-      startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 0, startHour, startMinute, 0);
-      endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 0, endHour, endMinute, 0);
-      event.push({
+      this.eventSource.push({
           title: name,
           startTime: startTime,
           endTime: endTime,
           desc: description,
-          allDay: false
+          allDay: false,
+          ID: events[i]["event_id"],
+          registered: (events[i]["attended"] != null)
       });
   }
-  console.log(event);
-  this.eventSource = event;
-  return event;
 }
-
-  // // Calendar event was clicked
-  // async onEventSelected(event) {
-  //   // Use Angular date pipe for conversion
-  //   let start = formatDate(event.startTime, 'medium', this.locale);
-  //   let end = formatDate(event.endTime, 'medium', this.locale);
- 
-  //   const alert = await this.alertCtrl.create({
-  //     header: event.title,
-  //     subHeader: event.desc,
-  //     message: 'From: ' + start + '<br><br>To: ' + end,
-  //     buttons: ['OK']
-  //   });
-  //   alert.present();
-  // }
+  passEventArray(ev: any){
+    let navigationExtras: NavigationExtras = {
+      state: {
+        events: this.eventSource 
+      }
+    };
+    this.router.navigate(['/my-registered-events'], navigationExtras);
+  }
 
   async onEventSelected(event) {
-    let start = formatDate(event.startTime, 'medium', this.locale);
-    let end = formatDate(event.endTime, 'medium', this.locale);
+
+    let date = formatDate(event.startTime, 'MMM d, yyyy', this.locale);
+    let start = formatDate(event.startTime, 'h:mma', this.locale);
+    let end = formatDate(event.endTime, 'h:mma', this.locale);
     const modal = await this.modalCtrl.create({
-      component: EventModalPage,      
-      cssClass: 'event-modal',
-      backdropDismiss: false,
+      component: EventModalPage,
       componentProps:{
-        header: event.title,
-        subHeader: event.desc,
-        message: 'From: ' + start + '<br><br>To: ' + end
+        eventObj: event,
+        eventName: event.title,
+        eventTime: date + '    '  + start + ' - ' + end,
+        eventDescription: event.desc,
+        eventID: event.ID,
+        registered: event.registered
       }
     });
    
     await modal.present();
-   
-    modal.onDidDismiss().then((result) => {
-      // if (result.data && result.data.event) {
-      //   let event = result.data.event;
-      //   if (event.allDay) {
-      //     let start = event.startTime;
-      //     event.startTime = new Date(
-      //       Date.UTC(
-      //         start.getUTCFullYear(),
-      //         start.getUTCMonth(),
-      //         start.getUTCDate()
-      //       )
-      //     );
-      //     event.endTime = new Date(
-      //       Date.UTC(
-      //         start.getUTCFullYear(),
-      //         start.getUTCMonth(),
-      //         start.getUTCDate() + 1
-      //       )
-      //     );
-      //   }
-      //   this.eventSource.push(result.data.event);
-      //   this.myCal.loadEvents();
-      // }
-    });
+
   }
 
   // https://github.com/twinssbc/Ionic2-Calendar/blob/v6/demo/pages/home.ts

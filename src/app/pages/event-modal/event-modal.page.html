@@ -1,72 +1,27 @@
-<ion-header>
+<ion-header translucent>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="close()">
-        <ion-icon name="close" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Register</ion-title>
+    <ion-title>Event Registration</ion-title>
     <ion-buttons slot="end">
+      <ion-button (click)="close()">Close</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
-  <br>
-  <!-- <ion-title [innerHTML]="header" > </ion-title> -->
-
-  <ion-title>
-    Event Title:
-    <p class="subtitle" [innerHTML]="header"></p>
-  </ion-title>  
-<br>
-<br>
-  <ion-title>
-    Event Description:</ion-title>  
-    <ion-item>
-          <p  [innerHTML]="subHeader"></p>
+<ion-content fullscreen>
+  <ion-list inset="false">
+    <ion-list-header class="ion-padding-right ion-padding-top">
+      <h1 class="ion-no-margin" [innerHTML]="eventName"></h1>
+    </ion-list-header>
+    <ion-item lines="full">
+      <ion-text  class="ion-color-medium" color="ion-color-medium" >
+        <p class="ion-no-margin" [innerHTML]="eventTime"></p>
+      </ion-text>
     </ion-item>
-
-  
-  <!-- <ion-text  class="subtitle" [innerHTML]="subHeader"></ion-text> -->
-<br>
-<br>
-  <ion-title>
-    Time:
-    <p class="subtitle" [innerHTML]="message"></p>
-  </ion-title>  
-  <br>
-  <br>
-  <br>
-  <br>
-
-  <!-- <ion-title [innerHTML]="message"></ion-title> -->
-    <!-- The required elements will not proceed unless they are filled out  -->
-    <form [formGroup]="emailForm" (ngSubmit)="login()">
-
-      <ion-item lines="full">
-        <ion-label position="floating">Enter Account Email 
-          <span *ngIf="formInputIsRequired('email')" class="required">&#42;</span>
-        </ion-label>
-        <ion-input formControlName="email" type="text" required></ion-input>
-      </ion-item>
-  
-      <div class="validation-errors">
-        <ng-container *ngFor="let validation of validation_messages.email">
-          <div class="error-message" *ngIf="emailForm.get('email').hasError(validation.type) && (emailForm.get('email').dirty || emailForm.get('email').touched)">
-            {{ validation.message }}
-          </div>
-        </ng-container>
-      </div>
-  
-      <ion-row>
-        <ion-col>
-  
-          <ion-button color="success" expand="block">Register</ion-button>
-         
-        </ion-col>
-      </ion-row>
-    </form>
-
-
+    <ion-item lines="full" >
+      <ion-text>
+        <p [innerHTML]="eventDescription"></p>
+      </ion-text>
+    </ion-item>
+    <ion-button [class.ion-hide]="registered == true" class="ion-margin-top" color="success" expand="block" (click)="registerForEvent()">Register</ion-button>
+    <ion-button [class.ion-hide]="registered == false" class="ion-margin-top" color="danger" expand="block" (click)="unregisterForEvent()">Unregister</ion-button>
+  </ion-list>
 </ion-content>

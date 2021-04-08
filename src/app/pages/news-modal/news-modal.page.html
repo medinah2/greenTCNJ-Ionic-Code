@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list inset="false">
+    <!-- <ion-list-header class="ion-padding-right ion-padding-top">
+      <h4 class="ion-no-margin" [innerHTML]="newsAuthor"></h4>
+    </ion-list-header> -->
+    <ion-item lines="none">
+      <div color="ion-color-medium">
+        <h3><strong [innerHTML]="newsTitle"></strong></h3>
+      </div>
+    </ion-item>
+    <ion-item lines="full">
+      <div color="ion-color-medium" style="white-space: pre-wrap;" >
+        <i>by </i><i [innerHTML]="newsAuthor"></i>
+        <p style="margin-top: 0;" [innerHTML]="newsDatePublished"></p>
+      </div>
+    </ion-item>
+
+
+    <ion-item lines="none">
+      <ion-text>
+        <p [innerHTML]="newsDescription"></p>
+      </ion-text>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

@@ -1,6 +1,10 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>My Schedule</ion-title>
+  <ion-toolbar mode="ios">
+    <ion-title>
+      <div class="ion-text-wrap">
+        My Schedule
+      </div>
+    </ion-title>
     <ion-buttons slot="start">
       <ion-menu-button menu ="main-menu"></ion-menu-button>
     </ion-buttons>
@@ -26,20 +30,6 @@
     </ion-segment-button>
 
   </ion-segment>
-
-  <!-- <ion-row>
-    <ion-col size="6">
-      <ion-button (click)="createRandomEvents()" expand="block" fill="outline">
-        Add random events 
-      </ion-button>
-    </ion-col>
-
-    <ion-col size="6">
-      <ion-button (click)="removeEvents()" expand="block" fill="outline">
-        Remove all events 
-      </ion-button>
-    </ion-col>
-  </ion-row> -->
 
   <ion-row>
     <ion-col size="2">
@@ -68,16 +58,59 @@
     (onTitleChanged)="onViewTitleChanged($event)"
     (onEventSelected)="onEventSelected($event)"
     [monthviewDisplayEventTemplate]="foo"
+    [monthviewEventDetailTemplate]="template"
   >
   </calendar>
 
   <ng-template #foo let-view="view" let-row="row" let-col="col">
-    <div [class.with-event]="view.dates[row*7+col].events.length">
-      {{view.dates[row*7+col].label}}
+    {{view.dates[row*7+col].label}}
+    <!--
+      <div [class.with-event]="view.dates[row*7+col].events.length">
+      
       <div class="indicator-container">
         <div class="event-indicator" *ngFor="let e of view.dates[row*7+col].events"></div>
         </div>
       </div>
+
+      
+      
+    -->
+    
   </ng-template>
 
+  <ng-template #template let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel">
+    <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
+      <ion-item lines="full" *ngFor="let event of selectedDate?.events" (click)="onEventSelected(event)">
+        <span *ngIf="!event.allDay" class="monthview-eventdetail-timecolumn">
+          {{event.startTime|date: 'h:mma'}}-{{event.endTime|date: 'h:mma'}} 
+
+        </span>
+        <span *ngIf="event.allDay" class="monthview-eventdetail-timecolumn">{{allDayLabel}}</span>
+        <span class="event-detail">&nbsp; |  {{(event.title.length > 20)? (event.title | slice:0:20)+'..':(event.title) }}</span>
+      </ion-item>
+      <ion-item lines="full" *ngIf="selectedDate?.events.length==0">
+        <div class="no-events-label">{{noEventsLabel}}</div>
+      </ion-item>
+    </ion-list>
+  </ng-template>
+  
+  <!-- <ion-footer class="ion-no-border">
+    <ion-toolbar>
+      <ion-item>
+        <ion-text>Looking for a material that is not on our list? 
+          <a [routerLink]="['/suggestmaterial']" class="small-text">Submit a material here!</a>
+        </ion-text>
+      </ion-item>
+    </ion-toolbar>
+  </ion-footer> -->
+
 </ion-content>
+
+
+  <ion-footer class="ion-no-border">
+    <ion-toolbar>
+
+        <ion-button (click)="passEventArray($event)" class="small-text" color="success" expand="block">My Registered Events</ion-button>
+
+    </ion-toolbar>
+  </ion-footer>

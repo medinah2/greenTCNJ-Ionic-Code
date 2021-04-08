@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-menu-button menu ="main-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="ion-text-wrap">
+        Attendance Scanner
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item>
+    <h1><strong>Coming soon</strong></h1>
+  </ion-item>
+
+  <ion-item >
+    <p>This page is currently not developed and cannot be tested.  Upon further implementation it will be used to set user attendance at events by scanning an event QR code.</p>
+  </ion-item>
+
+  <ion-row>
+    <ion-col>
+      <ion-button type="submit" color="success" expand="block" (click)="scanBarcode()">Scan Attendance QR Code</ion-button>
+
+      <div *ngIf="scannedData">
+        <p>Scanned Text : </p>
+        <p>Scanned Format : </p>
+      </div>
+
+    </ion-col>
+
+    
+  </ion-row>
+
+
+
+
+
+</ion-content>

@@ -8,12 +8,15 @@ import { NewsPageRoutingModule } from './news-routing.module';
 
 import { NewsPage } from './news.page';
 
+import { EventModalPageModule } from '../event-modal/event-modal.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    NewsPageRoutingModule
+    NewsPageRoutingModule,
+    EventModalPageModule
   ],
   declarations: [NewsPage]
 })

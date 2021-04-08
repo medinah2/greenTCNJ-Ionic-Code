@@ -94,8 +94,16 @@ const routes: Routes = [
     loadChildren: () => import('./pages/suggestmaterial/suggestmaterial.module').then( m => m.SuggestmaterialPageModule)
   },
   {
-    path: 'suggestevent',
-    loadChildren: () => import('./pages/suggestevent/suggestevent.module').then( m => m.SuggesteventPageModule)
+    path: 'qr-scanner',
+    loadChildren: () => import('./pages/qr-scanner/qr-scanner.module').then( m => m.QrScannerPageModule)
+  },
+  {
+    path: 'news-modal',
+    loadChildren: () => import('./pages/news-modal/news-modal.module').then( m => m.NewsModalPageModule)
+  },
+  {
+    path: 'my-registered-events',
+    loadChildren: () => import('./pages/my-registered-events/my-registered-events.module').then( m => m.MyRegisteredEventsPageModule)
   },
 ];
 

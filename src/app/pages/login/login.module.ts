@@ -8,10 +8,13 @@ import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
 
+import { IonicStorageModule } from '@ionic/storage';
+
 @NgModule({
   imports: [
     CommonModule,
     IonicModule,
+    IonicStorageModule.forRoot(),
     ReactiveFormsModule,
     LoginPageRoutingModule
   ],

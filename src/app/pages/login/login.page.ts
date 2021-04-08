@@ -8,7 +8,7 @@ import { AuthenticationService } from './../../services/authentication.service';
 import { User } from '../../models/user';
 import {  MenuController } from '@ionic/angular';
 
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { Storage } from '@ionic/storage';
 
 import { UserService } from '../../services/user.service';
 
@@ -18,7 +18,6 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./login.page.scss'],
 })
 
-// export class LoginPage implements OnInit {
 export class LoginPage {
   
   emailInput: string = "";
@@ -29,7 +28,13 @@ export class LoginPage {
   pageLoaded: boolean = false;
   user: any;
 
-  constructor(private  userService: UserService, private nativeStorage: NativeStorage, public menuCtrl: MenuController, private alertController: AlertController, private authService: AuthenticationService, private router: Router, public http: HttpClient, public navCtrl: NavController, public formBuilder: FormBuilder, private loadingController: LoadingController) {
+
+  wrongInput: boolean = false;
+  correctInput: boolean = false;
+  missingInput: boolean = false;
+  canLogin: boolean = false;
+
+  constructor(private  userService: UserService, private storage: Storage, public menuCtrl: MenuController, private alertController: AlertController, private authService: AuthenticationService, private router: Router, public http: HttpClient, public navCtrl: NavController, public formBuilder: FormBuilder, private loadingController: LoadingController) {
     this.loginForm = formBuilder.group({
         // Require validators for the input fields so we can quickly tell them if their input is valid, the patten string is what characters
         // are allowed in the field and for email it makes sure there is a @ character and a domain field like .com
@@ -39,7 +44,10 @@ export class LoginPage {
     this.menuCtrl.enable(false);
     this.user = this.userService;
     // this.testlogin();
+    
   }
+
+  
 
   // responsible for printing error messages to the screen based on validator 
   validation_messages = {
@@ -50,17 +58,83 @@ export class LoginPage {
       'password': [
         { type: 'required', message: 'A password is required.' }
       ]
-    }
+  }
+
+
+checkValidLogin(){
+  console.log("Reaching this on submit?");
+
+  if(!this.loginForm.valid){
+    console.log("INVALID");
+  }else{
+    console.log("VALID");
+
+          // Find a way to get email and password input from user
+          var obj = {func: "try_login", email: this.loginForm.value['email'], password: this.loginForm.value['password']};
+          
+          this.http.post("https://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).subscribe(data => {
+                
+            var result = data as any[];
+    
+              if(result["loginSuccess"]){
+                this.invalidLogin = false;
+                console.log("VALID LOGIN " + result['userInfo']['user_first_name']);
+    
+                // this is used to store user info within the app, stores userID, Name, type, and email 
+                this.storage.set('userID', result['userInfo']['user_id']); 
+                this.storage.set('userName', result['userInfo']['user_first_name']);
+                this.storage.set('userType', result['userInfo']['user_type']);
+                this.storage.set('userEmail', result["userInfo"]["user_email"]);
+    
+                // used to set user interests within the app
+                // "recycling_interest", "water_interest", "pollution_interest", "energy_interest"
+                this.storage.set('userRecyclingInterest', result["userInfo"]["recycling_interest"]);
+                this.storage.set('userWaterInterest', result["userInfo"]["water_interest"]);
+                this.storage.set('userPollutionInterest', result["userInfo"]["pollution_interest"]);
+                this.storage.set('userEnergyInterest', result["userInfo"]["energy_interest"]);
+    
+                this.invalidLogin = false;
+                this.correctInput = true;
+                this.missingInput = false;
+                this.wrongInput = false;
+
+                
+              }else if(result["missingInputs"]){
+                // output error message of missing inputs
+                
+                console.log("Missing Input");
+
+                this.invalidLogin = true;
+                this.correctInput = false;
+                this.missingInput = true;
+                this.wrongInput = false;
+                    
+              }else{
+                // dont move to next page and output error message "Email or password entered was incorrect"
+                console.log("Email or password was incorrect");
+                
+                console.log("huh?" + result[1] + result[1]);    
+
+                this.invalidLogin = true;
+                this.correctInput = false;
+                this.missingInput = false;
+                this.wrongInput = true;      
+              }
+          });
+
+          
+  }
+  this.canLogin  = true;
+}
 
   async login(){
 
     const loading = await this.loadingController.create();
     await loading.present();
 
-    console.log("tryLogin");
     console.log(this.loginForm.value);
     
-    if(!this.loginForm.valid){
+    if(!this.loginForm.valid && this.canLogin){
       console.log("INVALID");
 
       this.authService.login(this.loginForm.value).subscribe(
@@ -74,191 +148,120 @@ export class LoginPage {
           await alert.present();
         }
       );
-    }
-    else{
+    }else{
       console.log("VALID");
-     
-      // Find a way to get email and password input from user
-      var obj = {func: "try_login", email: this.loginForm.value['email'], password: this.loginForm.value['password']};
-          
-      this.http.post("http://recycle.hpc.tcnj.edu/php/users-handler.php", JSON.stringify(obj)).subscribe(data => {
-      
-          var result = data as any[];
 
-          if(result["loginSuccess"]){
-            this.invalidLogin = false;
+      // valid login
+      if(this.loginSuccess() && !this.missingValues() && !this.wrongCredientals() ){
 
-            // {user_id: 2, user_email: "medinah2@tcnj.edu", 
-            // user_first_name: "Heavenly", user_last_name: "Medina", 
-            // user_type: "Student"}
-
-
-            // this.nativeStorage.setItem('myuser', {userID: result["userInfo"]["user_id"], usremail: result["userInfo"]["user_email"] })
-            
-            // this.nativeStorage.setItem('myuser', {myuser: this.user })
-            // .then(
-            //   () => console.log('Stored item!'),
-            //   error => console.error('Error storing item', error)
-            // );
-
-            // this.nativeStorage.getItem('myuser')
-            // .then(
-            // data => console.log(data),
-            // error => console.error(error)
-            // );
-
-
-            // output to user it succeeded and move to next page
-            console.log("LOGIN SUCCESS");
-            console.log(result["userInfo"]["user_id"]);
-            console.log(result["userInfo"]);
-            //this.user = new User(result["userInfo"]["user_id"], result["userInfo"]["user_email"], result["userInfo"]["user_type"], result["userInfo"]["user_first_name"], result["userInfo"]["user_last_name"] );
-            this.user.firstName = result["userInfo"]["user_first_name"];
-            this.user.lastName = result["userInfo"]["user_last_name"];
-            this.user.email = result["userInfo"]["user_email"];
-            this.user.type = result["userInfo"]["user_type"];
-            this.user.id = result["userInfo"]["user_id"];
-
-            console.log("testing " + this.user.fullName);
-
-
-            console.log(this.user.email);
-
+        this.authService.login(this.loginForm.value).subscribe(
+          async (res) => {
+            console.log("What goes first?");
+            loading.dismiss();
             this.invalidLogin = false;
             this.navigateToHomePage();
-            
-            this.authService.login(this.loginForm.value).subscribe(
-              async (res) => {
-                await loading.dismiss();        
-                this.invalidLogin = false;
-                this.navigateToHomePage();
-              },
-              async (res) => {
-                await loading.dismiss();
-                const alert = await this.alertController.create({
-                  header: 'Login failed',
-                  message: res.error.error,
-                  buttons: ['OK'],
-                });
-         
-                await alert.present();
-              }
-            );
-
-            // if(!this.loginFailure){
-            //   this.authService.login(this.loginForm.value).subscribe(
-            //     async (res) => {
-            //       await loading.dismiss();        
-            //       this.invalidLogin = false;
-            //       // this.navigateToHomePage();
-            //       // if(this.navigateToHomePage()){
-            //       //   loading.dismiss();
-            //       //   console.log("hello?");
-            //       // }
-            //     }
-            //   ); 
-            //   // await loading.present();
-            // }
-            
           }
-          else if(result["missingInputs"]){
-            // output error message of missing inputs
-            this.invalidLogin = true;
-            console.log("Missing Input");
-            
-            this.authService.login(this.loginForm.value).subscribe(
-              async (res) => {
-                await loading.dismiss();
-                const alert = await this.alertController.create({
-                  header: 'Login failed',
-                  message: 'You are missing input.',
-                  buttons: ['OK'],
-                });
-                await alert.present();
-              }
-            );
+        );
 
-          }else{
-            // dont move to next page and output error message "Email or password entered was incorrect"
-            console.log("Email or password was incorrect");
-            this.invalidLogin = true;
-            console.log("huh?" + result[1] + result[1]);
+        this.correctInput = true;
+        this.missingInput = false;
+        this.wrongInput = false;
 
-            this.authService.login(this.loginForm.value).subscribe(
-              async (res) => {
-                await loading.dismiss();
-                const alert = await this.alertController.create({
-                  header: 'Login failed',
-                  message: 'Email or password entered was incorrect',
-                  buttons: ['OK'],
-                });
-                await alert.present();
-              }
-            );
-            
+      // missing input  
+      }else if(!this.loginSuccess() && this.missingValues() && !this.wrongCredientals()){
+
+        console.log("Missing Input");
+        
+        this.authService.login(this.loginForm.value).subscribe(
+          async (res) => {
+            await loading.dismiss();
+            const alert = await this.alertController.create({
+              header: 'Login failed',
+              message: 'You are missing input.',
+              buttons: ['OK'],
+            });
+            await alert.present();
           }
-      });
+        );
+
+        this.correctInput = false;
+        this.missingInput = true;
+        this.wrongInput = false;
+
+      // wrong credentials 
+      }else if(!this.loginSuccess() && !this.missingValues() && this.wrongCredientals()){
+        
+        console.log("Email or password was incorrect");
+
+        this.authService.login(this.loginForm.value).subscribe(
+          async (res) => {
+            await loading.dismiss();
+            const alert = await this.alertController.create({
+              header: 'Login failed',
+              message: 'Your email or password was incorrect',
+              buttons: ['OK'],
+            });
+            await alert.present();
+          }
+        );
+
+        this.correctInput = false;
+        this.missingInput = false;
+        this.wrongInput = true;
+
+      // should never resch here   
+      }else{
+        console.log("WHAT THE HECK?");
+        console.log(this.loginSuccess() + " " + this.missingValues() + " " + this.wrongCredientals());
+
+        loading.dismiss();
+
+      }
+
     }
      
   }
 
-
-  // async login(){
-  //   const loading = await this.loadingController.create();
-  //   await loading.present();
-
-  //   this.authService.login(this.loginForm.value).subscribe(
-  //     async (res) => {
-  //       await loading.dismiss();        
-  //       this.invalidLogin = false;
-  //       this.navigateToHomePage();
-  //     },
-  //     async (res) => {
-  //       await loading.dismiss();
-  //       const alert = await this.alertController.create({
-  //         header: 'Login failed',
-  //         message: res.error.error,
-  //         buttons: ['OK'],
-  //       });
- 
-  //       await alert.present();
-  //     }
-  //   );
-
-  // }
-
- 
-
-navigateToHomePage() {
-  // this.nativeStorage.setItem('myuser', {userStuff: this.user.first_name })
-  // .then(
-  //   () => console.log('Stored item!'),
-  //   error => console.error('Error storing item', error)
-  // );
-  // console.log("what");
-  // this.nativeStorage.getItem('myuser')
-  // .then(
-  // data => console.log("HELLOOOO" + data),
-  // error => console.error(error)
-  // );
-
-  this.pageLoaded = true;
-  this.router.navigateByUrl('/home', { replaceUrl: true });
-}
-
- formInputIsRequired(formInput: string) {
-  if (this.loginForm.controls[formInput]) {
-    if (this.loginForm.controls[formInput].hasError('required')) {
-      return true;
-    }
+  navigateToHomePage() {
+    console.log("Working?");
+    this.pageLoaded = true;
+    this.menuCtrl.enable(true);
+    this.router.navigate(['/home'], { replaceUrl: true });
+    this.router.navigateByUrl('/home').then(success => console.log(`routing status: ${success}`));
   }
-  return false;
-}
 
-loginFailure(){
 
-  return this.invalidLogin;
+  formInputIsRequired(formInput: string) {
+    if (this.loginForm.controls[formInput]) {
+      if (this.loginForm.controls[formInput].hasError('required')) {
+        return true;
+      }
+    }
+    return false;
+  }
 
-}
+  loginFailure(){
+
+    return this.invalidLogin;
+
+  }
+
+  wrongCredientals(){
+
+    return this.wrongInput;
+
+  }
+
+  loginSuccess(){
+
+    return this.correctInput;
+
+  }
+
+  missingValues(){
+
+    return this.missingInput;
+
+  }
 
 }

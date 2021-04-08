@@ -9,11 +9,14 @@ import { SuggestmaterialPageRoutingModule } from './suggestmaterial-routing.modu
 
 import { SuggestmaterialPage } from './suggestmaterial.page';
 
+import { IonicStorageModule } from '@ionic/storage';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    IonicStorageModule.forRoot(),
     ReactiveFormsModule,
     SuggestmaterialPageRoutingModule
   ],

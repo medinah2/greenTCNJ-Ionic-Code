@@ -1,11 +1,14 @@
 <!-- This page is responsible for the login page -->
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar mode="ios">
+    <ion-title >
+      Log In
+    </ion-title>
     <!-- has a back button to be able to go back to the start page in the event that they need to register rather than sign up -->
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/start"></ion-back-button>
     </ion-buttons>
-    <ion-title>Log In</ion-title>
+    
   </ion-toolbar>
 </ion-header>
 
@@ -57,10 +60,13 @@
         <div class="validation-errors">
           <span *ngIf="loginFailure()">Email or password entered was incorrect</span>        
         </div>
-
-        <ion-button type="submit" color="danger" expand="block">Login</ion-button>
-        <a [routerLink]="['/recover-password']" class="small-text">Forgot Password?</a>
+        <ion-button type="submit" color="success" expand="block" (click)="checkValidLogin()">Login</ion-button>
       </ion-col>
     </ion-row>
+
+    <ion-item lines="none" class="ion-no-padding">
+      <a style="margin: 0 auto; padding: 0 auto;" [routerLink]="['/recover-password']" class="small-text">Forgot Password?</a>
+    </ion-item>
+
   </form>
 </ion-content>

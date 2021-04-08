@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms"
 import { HttpClient} from '@angular/common/http';
 import { Router, NavigationExtras } from '@angular/router';
 
+import { Storage } from '@ionic/storage';
+
 @Component({
   selector: 'app-suggestmaterial',
   templateUrl: './suggestmaterial.page.html',
@@ -14,15 +16,24 @@ export class SuggestmaterialPage{
   wordForm: FormGroup;
   myControl: FormControl;
   wordSent: boolean = false;
+  today = new Date(Date.now());
+  usrEmail;
 
   // firstName: new FormControl()
 
-  constructor(private router: Router, public http: HttpClient, public formBuilder: FormBuilder) {
+  constructor(private router: Router, public http: HttpClient, public formBuilder: FormBuilder, private storage: Storage) {
     this.wordForm = formBuilder.group({
         // Require validators for the input fields so we can quickly tell them if their input is valid, the patten string is what characters
         // are allowed in the field and for email it makes sure there is a @ character and a domain field like .com
-        word: ['', Validators.compose([Validators.minLength(2), Validators.maxLength(30), Validators.required])]
+        word: ['', Validators.compose([Validators.minLength(2), Validators.maxLength(30), Validators.required])],
+        description: ['']
     });
+
+    storage.get('userEmail').then((val) => {
+      console.log('Your email is', val);
+      this.usrEmail = val;
+    });
+
   }
 
 
@@ -46,30 +57,41 @@ export class SuggestmaterialPage{
 
       this.wordSent = true;
 
-      // // Find a way to get email and password input from user
-      // var obj = {func: "generate_reset", email: this.emailForm.value['email']};
+      // Find a way to get email and password input from user
+      var obj = {func: "add_request", requestMaterial: this.wordForm.value['word'],  requestDescription: this.wordForm.value['description'], userEmail: this.usrEmail};
     
-      // this.http.post("http://recycle.hpc.tcnj.edu/php/password-resets-handler.php", JSON.stringify(obj)).subscribe(data => {
+      this.http.post("https://recycle.hpc.tcnj.edu/php/material-requests-handler.php", JSON.stringify(obj)).subscribe(data => {
       
-      //     var result = data as any[];
+          var result = data as any[];
 
-      //     if(result['missingInput']){
-      //       // output to user it succeeded and move to next page
-      //       console.log("missing Input");
-      //       this.emailSent = false;
+          console.log(result);
 
-      //     } else {
-      //       this.emailSent = true;
-      //       console.log("email sent");
-      //     }
-      // });
+          if(result['missingInput']){
+            // output to user it succeeded and move to next page
+            console.log("missing Input");
+            this.wordSent = false;
+
+          } else {
+            this.wordSent = true;
+            console.log("word submitted");
+            this.wordForm.reset(); 
+          }
+      });
+
     }
   }
 
   wordFailure(){
-
     return this.wordSent;
-  
+  }
+
+  formInputIsRequired(formInput: string) {
+    if (this.wordForm.controls[formInput]) {
+      if (this.wordForm.controls[formInput].hasError('required')) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }

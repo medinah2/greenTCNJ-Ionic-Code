@@ -1,7 +1,11 @@
 <!-- This page is loaded up upon entering the app, it will prompt users to register or sign in to the application -->
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Welcome to Green TCNJ</ion-title>
+  <ion-toolbar mode="ios">
+    <ion-title>
+      <div class="ion-text-wrap">
+        Welcome to Green TCNJ
+      </div>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -37,7 +41,7 @@
 
         <span class="already">Already a user?</span>
 
-        <ion-button [routerLink]="['/login']" expand="block" color="danger">Sign In</ion-button>
+        <ion-button [routerLink]="['/login']" expand="block" color="success">Sign In</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

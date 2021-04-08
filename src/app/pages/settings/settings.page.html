@@ -1,6 +1,10 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Settings</ion-title>
+  <ion-toolbar mode="ios">
+    <ion-title>
+      <div class="ion-text-wrap">
+        Settings
+      </div>
+    </ion-title>
     <ion-buttons slot="start">
       <ion-menu-button menu ="main-menu"></ion-menu-button>
     </ion-buttons>
@@ -13,13 +17,13 @@
 
 <ion-content>
   <ion-list>
-    <ion-item lines="full">
+    <!-- <ion-item lines="full">
       <ion-icon slot="start" name="moon"></ion-icon>
       <ion-label>
         Toggle Dark Theme
       </ion-label>
       <ion-toggle (ionChange)="onClick($event)" slot="end"></ion-toggle>
-    </ion-item>
+    </ion-item> -->
 
     <ion-item lines="full">
       <ion-label>
@@ -29,7 +33,29 @@
     </ion-item>
 
   </ion-list>
+
+
+  <br>
+  <ion-list>
+    <ion-title>Manage my interests</ion-title>
+    <ion-item *ngFor="let entry of form">
+      <ion-label>{{entry.val}}</ion-label>
+      <ion-checkbox slot="end" (ionChange)="boxChecked($event)" [(ngModel)]="entry.isChecked"></ion-checkbox>
+    </ion-item>
+    <ion-button [disabled]="buttonDisabled" color="success" expand="full" (click)="updateUserInterests()">Update Interests</ion-button>
+  </ion-list>
   
-  <ion-button expand="full" (click)="logout()">Logout</ion-button>
+
+
+
+
 
 </ion-content>
+
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    
+    <ion-button expand="full" (click)="logout()">Logout</ion-button>
+  </ion-toolbar>
+</ion-footer>

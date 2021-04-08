@@ -1,6 +1,10 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Home</ion-title>
+  <ion-toolbar mode="ios">
+    <ion-title>
+      <div class="ion-text-wrap">
+        Home
+      </div>
+    </ion-title>
     <ion-buttons slot="start">
       <!-- to display menu button that can be toggled -->
       
@@ -13,50 +17,68 @@
 
 <ion-content [fullscreen]="true">
 
-    <br> 
-    <!-- page title, need to fix centering as it is not being centered -->
-    <ion-title text-center>
-      Welcome to Green TCNJ {{ user.firstName}}!
-    </ion-title>
+    <!-- page title, need to fix centering as it is not being centered 
+    <ion-item style="padding: 0; margin: 0;" lines="full">
+      <ion-title style="padding: 0; margin: 0;" [innerHTML]="welcomeMsg" style="padding: 0;"></ion-title>
+    </ion-item>
+    
+    <ion-list-header>Not sure where something goes? </ion-list-header>-->
 
-    <ion-list-header>Not sure where something goes? </ion-list-header>
+    <!-- <ion-item style="padding: 0; margin: 0;" lines="full">
+      <ion-title style="padding: 0; margin: 0;" [innerHTML]="welcomeMsg" style="padding: 0;"></ion-title>
+    </ion-item> -->
+
+    
     <ion-item>
+      <!-- <ion-item-divider>
+        <ion-label>
+          Basic Item Divider
+        </ion-label>
+      </ion-item-divider> -->
+
       <ion-thumbnail slot="start">
-        <!-- placeholder image for logo or Roscoe image -->
-        <!-- <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y"> -->
-        <img src="../../assets/icon/icon.png">
+        <img src = "../../assets/RecyclingRoscoeSquare.png">
         <!-- <img src="../../assets/icon/TCNJ SPIRIT HEAD FULL COLOR RGB.png"> -->
       </ion-thumbnail>
-      <ion-label>Ask Roscoe!</ion-label>
+      <!-- <ion-label [innerHTML]="welcomeMsg">test</ion-label>
+      <br> -->
+      <ion-label class="ion-text-wrap">
+        <h1 [innerHTML]="welcomeMsg"></h1>
+        <ion-item-divider></ion-item-divider>
+        <h2><strong>What Goes Where?</strong></h2> 
+        <h3>Ask Roscoe!</h3>
+      </ion-label>
     </ion-item>
 
     <!-- onClick() routes you to the whatgoeswhere page to use the search bar -->
     <!-- on this page the search bar is not actually functional, it is just meant to link you to the other page as seen in recycle coach -->
     <ion-searchbar (click)="onClick($event)"></ion-searchbar>
 
-    <ion-item>
+    <ion-item lines="full">
       <!-- link to campusresources page to display provided links -->
       <a [routerLink]="['/campusresources']" class="small-text">TCNJ Recycling Guidelines</a>
     </ion-item>
 
 
   <ion-card>
-    <ion-card-header>
+    <ion-card-header style="padding-bottom: 0;">
       <ion-card-title>Events for today: </ion-card-title>
       <!-- prints current date -->
       <ion-card-subtitle>{{today | date}}</ion-card-subtitle>
     </ion-card-header>
   
-    <ion-card-content>
-      <!-- currently a placeholder but will place events into a list here once events are set up in the calendar -->
+    <ion-card-content style="padding-bottom: 0.5em;">
       <!-- List of Text Items -->
       <ion-list>
-        <ion-item *ngFor="let test of events">
-          <ion-label [innerHTML]="test.name">Event 1</ion-label>
+        <ion-item class="ion-no-padding" lines="full" *ngFor="let test of events">
+            <ion-label class="ion-text-wrap" [innerHTML]="test.name"></ion-label>
         </ion-item>
       </ion-list>
       <!-- link to calendar page to display all events -->
-      <a [routerLink]="['/schedule']" class="small-text">View all events</a>
+      <ion-item lines="none" class="ion-no-padding">
+        <a [routerLink]="['/schedule']" class="small-text">View all events</a>
+      </ion-item>
+      
     </ion-card-content>
   </ion-card>
 

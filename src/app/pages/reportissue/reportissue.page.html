@@ -1,6 +1,10 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Report an Issue</ion-title>
+  <ion-toolbar mode="ios">
+    <ion-title>
+      <div class="ion-text-wrap">
+        Help/Report an Issue
+      </div>
+    </ion-title>
     <ion-buttons slot="start">
       <ion-menu-button menu ="main-menu"></ion-menu-button>
     </ion-buttons>
@@ -8,5 +12,40 @@
 </ion-header>
 
 <ion-content>
+  
+
+  <form [formGroup]="wordForm" (ngSubmit)="submitWord()">
+    <ion-item lines="full">
+      <br>
+      <br>
+      <ion-text>Having issues within the application or with green initiatives on campus?  Submit your reports here.</ion-text>
+
+      <br>
+      <ion-label position="floating">Report Issue
+        <span *ngIf="formInputIsRequired('word')" class="required">&#42;</span>
+      </ion-label>
+      <ion-textarea formControlName="word" type="text" autoGrow="true" required></ion-textarea>
+    </ion-item>
+
+    <div class="validation-errors">
+      <ng-container *ngFor="let validation of validation_messages.word">
+        <div class="error-message" *ngIf="wordForm.get('word').hasError(validation.type) && (wordForm.get('word').dirty || wordForm.get('word').touched)">
+          {{ validation.message }}
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" color="success" expand="block">Submit</ion-button>
+
+        <div class="validation-confirmation">
+          <span *ngIf="wordFailure()">Your report has been submitted!</span>        
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </form>
+
 
 </ion-content>
